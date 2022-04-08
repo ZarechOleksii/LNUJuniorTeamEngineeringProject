@@ -1,0 +1,10 @@
+
+.wide-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid;
+}
+
+    .wide-table th, td {
+        border: 1px solid;
+    }

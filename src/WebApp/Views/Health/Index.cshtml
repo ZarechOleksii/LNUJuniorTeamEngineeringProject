@@ -1,0 +1,22 @@
+﻿@model IEnumerable<Models.BaseEntity>
+
+@{
+    ViewData["Title"] = "Health Check";
+}
+<head>
+    <link rel="stylesheet" href="~/css/health.css" />
+</head>
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="wide-table">
+    <tr>
+        <th>Id</th>
+    </tr>
+    @foreach(var entity in Model)
+    {
+        <tr>
+            <td>@entity.Id</td>
+        </tr>
+    }
+</table>
