@@ -12,7 +12,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IBaseEntityService, BaseEntityService>();
 builder.Services.AddScoped<IRepository<BaseEntity>, BaseRepository<BaseEntity>>();
 
-//Database context
+// Database context
 var connectionString = GetHerokuConString();
 
 if (connectionString is null)
@@ -20,6 +20,7 @@ if (connectionString is null)
     builder.Configuration.AddJsonFile("appsettings.Local.json");
     connectionString = builder.Configuration.GetConnectionString("DATABASE_URL");
 }
+
 builder.Services.AddDbContext<ApplicationContext>(x => x.UseNpgsql(connectionString));
 
 var app = builder.Build();
@@ -28,6 +29,7 @@ var app = builder.Build();
 if (app.Environment.IsProduction())
 {
     app.UseExceptionHandler("/Home/Error");
+
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
@@ -35,7 +37,6 @@ if (app.Environment.IsProduction())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-
 
 app.MapControllerRoute(
     name: "default",
@@ -47,7 +48,9 @@ static string? GetHerokuConString()
 {
     var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
     if (databaseUrl is null)
+    {
         return null;
+    }
 
     var databaseUri = new Uri(databaseUrl);
     var userInfo = databaseUri.UserInfo.Split(':');

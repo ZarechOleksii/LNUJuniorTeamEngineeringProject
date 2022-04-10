@@ -7,7 +7,8 @@ namespace Data
     {
         public DbSet<BaseEntity> Forecasts { get; set; }
 
-        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
+        public ApplicationContext(DbContextOptions<ApplicationContext> options)
+            : base(options)
         {
             Database.EnsureDeleted();
             Database.EnsureCreatedAsync().Wait();
@@ -18,9 +19,9 @@ namespace Data
             modelBuilder.Entity<BaseEntity>().HasData(
                 new BaseEntity[]
                 {
-                new() { Id=Guid.NewGuid() },
-                new() { Id=Guid.NewGuid() },
-                new() { Id=Guid.NewGuid() },
+                new () { Id = Guid.NewGuid() },
+                new () { Id = Guid.NewGuid() },
+                new () { Id = Guid.NewGuid() },
                 });
         }
     }
