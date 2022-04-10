@@ -47,6 +47,7 @@ app.Run();
 static string? GetHerokuConString()
 {
     var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+
     if (databaseUrl is null)
     {
         return null;

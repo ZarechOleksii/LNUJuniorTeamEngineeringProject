@@ -2,6 +2,10 @@
 
 [*.cs]
 
+# XML comment analysis is disabled due to project configuration
+dotnet_diagnostic.SA0001.severity                          = none
+# Elements should be separated by a blank line
+dotnet_diagnostic.SA1516.severity                          = none
 # File should have header
 dotnet_diagnostic.SA1633.severity                          = none
 # Elements should be documented
@@ -73,3 +77,4 @@ dotnet_style_explicit_tuple_names                          = true : suggestion
 
 # Field preferences
 dotnet_style_readonly_field                                = true : warning
+
