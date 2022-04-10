@@ -3,7 +3,8 @@ using Models;
 
 namespace Data
 {
-    public class BaseRepository<T> : IRepository<T> where T : BaseEntity
+    public class BaseRepository<T> : IRepository<T>
+        where T : BaseEntity
     {
         protected readonly ApplicationContext _context;
         protected readonly DbSet<T> _set;

@@ -1,0 +1,75 @@
+﻿root = true
+
+[*.cs]
+
+# File should have header
+dotnet_diagnostic.SA1633.severity                          = none
+# Elements should be documented
+dotnet_diagnostic.SA1600.severity                          = none
+# Using directives should be placed correctly
+dotnet_diagnostic.SA1200.severity                          = none
+dotnet_diagnostic.SA1101.severity                          = none
+dotnet_diagnostic.SA1127.severity                          = error
+# Closing brace should be followed by a blank line
+dotnet_diagnostic.SA1513.severity                          = error
+# Bracers should not be omitted
+dotnet_diagnostic.SA1503.severity                          = error
+# Elements should appear in the correct order ("A field should not follow a property"
+# and "A constructor should not follow a property"). An opinion: a field and a property may have a strong relation
+# and the properties are usually more interesting than the constructor.
+dotnet_diagnostic.SA1201.severity                          = none
+dotnet_diagnostic.SA1203.severity                          = error
+dotnet_diagnostic.SA1204.severity                          = error
+dotnet_diagnostic.SA1208.severity                          = error
+dotnet_diagnostic.SA1210.severity                          = error
+dotnet_diagnostic.SA1214.severity                          = error
+dotnet_diagnostic.SA1309.severity                          = none
+dotnet_diagnostic.SA1316.severity                          = error
+dotnet_diagnostic.SA1400.severity                          = error
+dotnet_diagnostic.SA1401.severity                          = none
+dotnet_diagnostic.SA1402.severity                          = none
+dotnet_diagnostic.SA1413.severity                          = none
+dotnet_diagnostic.SA1414.severity                          = error
+dotnet_diagnostic.SA1500.severity                          = error
+dotnet_diagnostic.SA1502.severity                          = error
+dotnet_diagnostic.SA1503.severity                          = error
+dotnet_diagnostic.SA1504.severity                          = none
+dotnet_diagnostic.SA1505.severity                          = error
+dotnet_diagnostic.SA1507.severity                          = error
+dotnet_diagnostic.SA1508.severity                          = error
+dotnet_diagnostic.SA1509.severity                          = error
+# Non-nullable member in uninitialized
+dotnet_diagnostic.CS8618.severity                          = none
+
+
+end_of_line                                                = lf
+indent_style                                               = space
+indent_size                                                = 4
+trim_trailing_whitespace                                   = true
+insert_final_newline                                       = true
+tab_width                                                  = 4
+
+# Sort using and Import directives with System.* appearing first
+dotnet_sort_system_directives_first                        = true
+csharp_preferred_modifier_order                            = public, private, protected, internal, new, abstract, virtual, sealed, override, static, readonly, extern, unsafe, volatile, async : suggestion
+dotnet_style_require_accessibility_modifiers               = for_non_interface_members : suggestion
+
+# Avoid "this." and "Me." if not necessary
+dotnet_style_qualification_for_event                       = false : warning
+dotnet_style_qualification_for_field                       = false : warning
+dotnet_style_qualification_for_method                      = false : warning
+dotnet_style_qualification_for_property                    = false : warning
+
+# Use language keywords instead of framework type names for type references
+dotnet_style_predefined_type_for_locals_parameters_members = true : suggestion
+dotnet_style_predefined_type_for_member_access             = true : suggestion
+
+# Suggest more modern language features when available
+dotnet_style_object_initializer                            = true : suggestion
+dotnet_style_collection_initializer                        = true : suggestion
+dotnet_style_coalesce_expression                           = true : suggestion
+dotnet_style_null_propagation                              = true : suggestion
+dotnet_style_explicit_tuple_names                          = true : suggestion
+
+# Field preferences
+dotnet_style_readonly_field                                = true : warning
