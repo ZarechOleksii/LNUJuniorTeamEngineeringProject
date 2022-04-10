@@ -9,7 +9,8 @@ namespace WebApp.Controllers
         private readonly ILogger<HealthController> _logger;
         private readonly IBaseEntityService _service;
 
-        public HealthController(ILogger<HealthController> logger,
+        public HealthController(
+            ILogger<HealthController> logger,
             IBaseEntityService service)
         {
             _logger = logger;

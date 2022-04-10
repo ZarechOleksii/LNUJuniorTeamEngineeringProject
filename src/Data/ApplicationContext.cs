@@ -5,7 +5,7 @@ namespace Data
 {
     public class ApplicationContext : DbContext
     {
-        public DbSet<BaseEntity> Forecasts { get; set; }
+        public DbSet<BaseEntity> BaseEntities { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
