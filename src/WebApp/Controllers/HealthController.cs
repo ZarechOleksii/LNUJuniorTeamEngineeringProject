@@ -20,7 +20,10 @@ namespace WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View(await _service.GetBaseEntitiesAsync());
+            _logger.LogInformation("Fetching Information.");
+            var entities = await _service.GetBaseEntitiesAsync();
+            _logger.LogInformation("Fetched. Returning view.");
+            return View(entities);
         }
     }
 }
