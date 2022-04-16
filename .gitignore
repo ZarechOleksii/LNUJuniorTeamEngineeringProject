@@ -260,3 +260,5 @@ paket-files/
 #Others
 .DS_Store
 .vscode/
+
+appsettings.Local.json

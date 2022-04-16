@@ -63,7 +63,6 @@ catch (Exception ex)
 {
     Log.Fatal(ex, "Unhandled exception");
 }
-
 finally
 {
     Log.Information("Shut down complete");
