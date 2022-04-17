@@ -1,4 +1,7 @@
+using CustomIdentityApp;
 using Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Models.Entities;
 using Npgsql;
@@ -38,8 +41,28 @@ try
     }
 
     builder.Services.AddDbContext<ApplicationContext>(x => x.UseNpgsql(connectionString));
+    builder.Services.AddIdentity<User, IdentityRole>()
+        .AddRoles<IdentityRole>()
+        .AddEntityFrameworkStores<ApplicationContext>();
 
     var app = builder.Build();
+
+    // Roles initializing
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        try
+        {
+            var userManager = services.GetRequiredService<UserManager<User>>();
+            var rolesManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+            await RoleInitializer.InitializeAsync(userManager, rolesManager);
+        }
+        catch (Exception ex)
+        {
+            var logger = services.GetRequiredService<ILogger<Program>>();
+            logger.LogError(ex, "An error occurred while seeding the database.");
+        }
+    }
 
     // Configure the HTTP request pipeline.
     if (app.Environment.IsProduction())
@@ -50,6 +73,8 @@ try
         app.UseHsts();
     }
 
+    app.UseAuthentication();
+    app.UseAuthorization();
     app.UseHttpsRedirection();
     app.UseStaticFiles();
     app.UseRouting();

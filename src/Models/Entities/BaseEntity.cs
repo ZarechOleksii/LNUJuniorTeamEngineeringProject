@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models.Entities
 {
+    [Table("BaseEntities")]
     public class BaseEntity
     {
         [Key]

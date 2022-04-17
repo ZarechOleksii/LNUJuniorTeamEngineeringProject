@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Models.Entities;
 
 namespace Data
 {
-    public class ApplicationContext : DbContext
+    public class ApplicationContext : IdentityDbContext
     {
         public DbSet<BaseEntity> BaseEntities { get; set; }
         public DbSet<Movie> Movies { get; set; }
@@ -11,12 +13,13 @@ namespace Data
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
-            Database.EnsureDeleted();
+            Database.EnsureDeletedAsync().Wait();
             Database.EnsureCreatedAsync().Wait();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
