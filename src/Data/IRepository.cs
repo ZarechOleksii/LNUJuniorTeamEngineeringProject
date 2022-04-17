@@ -1,7 +1,9 @@
-﻿namespace Data
+﻿using Models.Entities;
+
+namespace Data
 {
     public interface IRepository<T>
-        where T : class
+        where T : BaseEntity
     {
         public Task<T?> GetAsync(Guid id);
 

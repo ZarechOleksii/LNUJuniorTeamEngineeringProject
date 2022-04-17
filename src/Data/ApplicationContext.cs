@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Models;
+using Models.Entities;
 
 namespace Data
 {
     public class ApplicationContext : DbContext
     {
         public DbSet<BaseEntity> BaseEntities { get; set; }
+        public DbSet<Movie> Movies { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
@@ -16,13 +17,6 @@ namespace Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<BaseEntity>().HasData(
-                new BaseEntity[]
-                {
-                new () { Id = Guid.NewGuid() },
-                new () { Id = Guid.NewGuid() },
-                new () { Id = Guid.NewGuid() },
-                });
         }
     }
 }
