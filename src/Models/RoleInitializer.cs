@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Models.Models;
+using Models.Entities;
 
-namespace CustomIdentityApp
+namespace Models
 {
     public class RoleInitializer
     {
