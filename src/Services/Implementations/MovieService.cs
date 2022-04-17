@@ -17,5 +17,11 @@ namespace Services.Implementations
         {
             return await _repository.AddAsync(movie);
         }
+
+        public async Task<Movie> GetMovieAsync(Guid movieId)
+        {
+            var xyi = await _repository.GetAsync(movieId);
+            return await _repository.GetAsync(movieId);
+        }
     }
 }

@@ -1,0 +1,25 @@
+﻿@model Models.Entities.Movie
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>@Model.Name</title>
+        <link rel="stylesheet" href="~/css/Movie/MoviePage.css" />
+
+    </head>
+    <body>
+        <h1 class="movie-header">@Model.Name</h1>
+
+        <iframe width="560"
+                height="315"
+                src=@Model.Url
+                frameborder="0"
+                class="movie-player"
+                scrolling ="no"
+                allowfullscreen>
+        </iframe>
+        <p class="movie-description">@Model.Description</p>
+
+</body>
+</html>
