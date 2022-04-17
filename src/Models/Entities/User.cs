@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
-namespace Models.Models
+namespace Models.Entities
 {
     public class User : IdentityUser
     {

@@ -36,7 +36,6 @@
 
   <ItemGroup>
     <Folder Include="ControllerTests\" />
-    <Folder Include="DataTests\" />
     <Folder Include="ModelTest\" />
     <Folder Include="ServiceTests\" />
   </ItemGroup>

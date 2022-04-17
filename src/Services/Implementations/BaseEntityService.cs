@@ -1,5 +1,5 @@
 ﻿using Data;
-using Models;
+using Models.Entities;
 using Services.Interfaces;
 
 namespace Services.Implementations

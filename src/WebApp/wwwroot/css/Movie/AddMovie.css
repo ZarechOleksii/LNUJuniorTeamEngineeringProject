@@ -1,0 +1,48 @@
+
+.add-movie-form{
+    width: 100%;
+}
+
+.form-title {
+    font-size: 32px;
+}
+
+.input-error {
+    font-size: 20px;
+    color: red;
+}
+
+.form-label {
+    width: 100%;
+    height: 24px;
+    font-size: 24px;
+    line-height: 24px;
+    text-indent: 2px;
+    margin-top: 20px;
+}
+
+.form-input{
+    width: 100%;
+    height: 28px;
+    font-size: 28px;
+    line-height: 28px;
+    text-indent: 6px;
+    overflow-y:scroll;
+}
+
+.form-textarea {
+    width: 100%;
+    height: 500px;
+    font-size: 28px;
+    line-height: 28px;
+    text-indent: 6px;
+}
+
+.submit-button{
+    width: 100%;
+    background-color: darkcyan;
+    height: 50px;
+    font-size:50px;
+    line-height:25px;
+    margin-top: 20px;
+}

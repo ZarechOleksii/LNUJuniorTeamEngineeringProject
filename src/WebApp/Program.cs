@@ -1,13 +1,11 @@
-using CustomIdentityApp;
 using Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Models;
-using Models.Models;
+using Models.Entities;
 using Npgsql;
 using Serilog;
-using Serilog.Events;
 using Services.Implementations;
 using Services.Interfaces;
 
@@ -29,7 +27,9 @@ try
     // Add services to the container.
     builder.Services.AddControllersWithViews();
     builder.Services.AddScoped<IBaseEntityService, BaseEntityService>();
+    builder.Services.AddScoped<IMovieService, MovieService>();
     builder.Services.AddScoped<IRepository<BaseEntity>, BaseRepository<BaseEntity>>();
+    builder.Services.AddScoped<IRepository<Movie>, BaseRepository<Movie>>();
 
     // Database context
     var connectionString = GetHerokuConString();
