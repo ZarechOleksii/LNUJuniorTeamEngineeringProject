@@ -1,0 +1,16 @@
+﻿.movie-header {
+    font-size: large;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.movie-player {
+    width: 960px;
+    height: 540px;
+}
+
+.movie-description {
+    font-size: large;
+    width: 100%;
+}

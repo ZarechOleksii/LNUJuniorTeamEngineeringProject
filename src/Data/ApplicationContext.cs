@@ -12,8 +12,8 @@
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
-            Database.EnsureDeletedAsync().Wait();
-            Database.EnsureCreatedAsync().Wait();
+            //Database.EnsureDeletedAsync().Wait();
+            //Database.EnsureCreatedAsync().Wait();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

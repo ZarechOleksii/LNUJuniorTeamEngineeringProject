@@ -22,14 +22,14 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public IActionResult Add()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> AddAsync(Movie movie)
         {
             if (!ModelState.IsValid)
@@ -40,6 +40,18 @@ namespace WebApp.Controllers
             await _service.AddMovieAsync(movie);
 
             return View("~/Views/Home/Index.cshtml");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<Movie>> GetAsync(Guid id)
+        {
+            var movie = await _service.GetMovieAsync(id);
+            if (movie is null)
+            {
+                return View("~/Views/Shared/Error404.cshtml");
+            }
+
+            return View(movie);
         }
     }
 }
