@@ -48,7 +48,7 @@ namespace WebApp.Controllers
             var movie = await _service.GetMovieAsync(id);
             if (movie is null)
             {
-                return View("~/Views/Home/Error.cshtml");
+                return View("~/Views/Shared/Error404.cshtml");
             }
 
             return View(movie);
