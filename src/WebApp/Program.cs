@@ -41,7 +41,7 @@ try
     }
 
     builder.Services.AddDbContext<ApplicationContext>(x => x.UseNpgsql(connectionString));
-    builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    builder.Services.AddIdentity<User, IdentityRole>()
         .AddRoles<IdentityRole>()
         .AddEntityFrameworkStores<ApplicationContext>();
 
@@ -74,6 +74,7 @@ try
     }
 
     app.UseAuthentication();
+    app.UseAuthorization();
     app.UseHttpsRedirection();
     app.UseStaticFiles();
     app.UseRouting();
