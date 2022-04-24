@@ -22,6 +22,6 @@ namespace Models.Entities
         [Url]
         public string Url { get; set; }
 
-        public List<Favourites> Favorites { get; set; }
+        public List<Favourites> Favourites { get; set; }
     }
 }
