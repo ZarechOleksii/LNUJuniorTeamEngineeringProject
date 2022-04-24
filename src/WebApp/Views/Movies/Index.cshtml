@@ -1,0 +1,34 @@
+﻿@model Models.Entities.Movie
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Movie INDEX</h1>
+<div class="add-to-favourite-area">
+    <div class="add-to-favourite-button">
+        <input id="id"/>
+        <button onclick="add()">Add to Favourite</button>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript">
+            $("button").click(function(e) {
+                let a = document.getElementById("id").value;
+                console.log(a);
+                e.preventDefault();
+                $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("AddToFavourite")",
+                        data: {id: a},
+                        async: true,
+                        dataType: "text",
+                        success: function (msg) {
+                            console.log("OK");
+                        },
+                        error: function (req, status, error) {
+                            console.log("BAD");
+                        }
+                });
+            });
+        </script>
+    </div>
+</div>
+

@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-﻿using Microsoft.EntityFrameworkCore;
-﻿using Models.Entities;
+using Microsoft.EntityFrameworkCore;
+using Models.Entities;
 
-﻿namespace Data
+namespace Data
 {
     public class ApplicationContext : IdentityDbContext
     {
         public DbSet<BaseEntity> BaseEntities { get; set; }
         public DbSet<Movie> Movies { get; set; }
+        public DbSet<Favourites> Favourites { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
