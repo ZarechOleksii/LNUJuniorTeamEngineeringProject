@@ -2,7 +2,9 @@
 using System.Threading.Tasks;
 using Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Models.Entities;
+using Moq;
 using Services.Implementations;
 using Xunit;
 
@@ -10,74 +12,72 @@ namespace UnitTests.DataTests
 {
     public class FavouriteServiceTest
     {
-        private readonly BaseRepository<Favourites> _rep;
-        private readonly ApplicationContext _context;
-        private readonly FavouriteService _favouriteService;
+        private readonly Mock<ILogger<FavouriteService>> _mockedLogger;
+        private FavouriteService _favouriteService;
 
         public FavouriteServiceTest()
         {
-            var dbName = $"OnlyMovies_{DateTime.Now.ToFileTimeUtc()}";
-            DbContextOptions<ApplicationContext> dbContextOptions
-                = new DbContextOptionsBuilder<ApplicationContext>()
-                .UseInMemoryDatabase(dbName)
-                .Options;
-            _context = new ApplicationContext(dbContextOptions);
-            PopulateData(_context);
-            _rep = new BaseRepository<Favourites>(_context);
-            _favouriteService = new FavouriteService(_rep);
+            _mockedLogger = new Mock<ILogger<FavouriteService>>();
         }
 
         [Fact]
-        public async Task AddToFavourite_Success()
+        public async Task AddToFavourites_WhenRepThrows_ReturnsFalse()
         {
             // arrange
-            var user_id = "user_id";
-            var movie_id = Guid.NewGuid();
+            var userId = Guid.NewGuid().ToString();
+            var movieId = Guid.NewGuid();
+            var mock = new Mock<IRepository<Favourites>>();
 
-            var user = new User()
-            {
-                Id = user_id,
-            };
-            var movie = new Movie()
-            {
-                Id = movie_id,
-            };
-            var favourite = new Favourites()
-            {
-                UserId = user.Id,
-                MovieId = movie.Id
-            };
+            mock.Setup(mock => mock.AddAsync(It.IsAny<Favourites>()))
+                .Throws(new Exception());
+
+            _favouriteService = new (mock.Object, _mockedLogger.Object);
 
             // act
-            await _favouriteService.AddToFavouriteAsync(favourite);
-            await _rep.SaveChangesAsync();
-            var new_favourites = await _rep.GetAsync(favourite.Id);
+            var result = await _favouriteService.AddToFavouriteAsync(userId, movieId);
 
             // assert
-            Assert.NotNull(new_favourites);
-            Assert.Equal(movie_id, new_favourites.MovieId);
-            Assert.Equal(user_id, new_favourites.UserId);
+            Assert.False(result);
         }
 
-        private static void PopulateData(ApplicationContext context)
+        [Fact]
+        public async Task AddToFavourites_WhenRepFalse_ReturnsFalse()
         {
-            context.BaseEntities.Add(new BaseEntity
-            {
-                Id = Guid.Parse("cefa6ffb-ce6e-4197-9c30-81459d072e5a")
-            });
-            context.BaseEntities.Add(new BaseEntity
-            {
-                Id = Guid.Parse("adc71289-a52b-4d06-9ffe-ed8d36604f13")
-            });
-            context.BaseEntities.Add(new BaseEntity
-            {
-                Id = Guid.Parse("a81e2adf-d628-45a2-ba9d-e30e1a337432")
-            });
-            context.BaseEntities.Add(new BaseEntity
-            {
-                Id = Guid.Parse("1fda063f-c6a1-4022-b2e3-6e4d43db4d33")
-            });
-            context.SaveChanges();
+            // arrange
+            var userId = Guid.NewGuid().ToString();
+            var movieId = Guid.NewGuid();
+            var mock = new Mock<IRepository<Favourites>>();
+
+            mock.Setup(mock => mock.AddAsync(It.IsAny<Favourites>()))
+                .ReturnsAsync(false);
+
+            _favouriteService = new (mock.Object, _mockedLogger.Object);
+
+            // act
+            var result = await _favouriteService.AddToFavouriteAsync(userId, movieId);
+
+            // assert
+            Assert.False(result);
+        }
+
+        [Fact]
+        public async Task AddToFavourites_WhenRepTrue_ReturnsTrue()
+        {
+            // arrange
+            var userId = Guid.NewGuid().ToString();
+            var movieId = Guid.NewGuid();
+            var mock = new Mock<IRepository<Favourites>>();
+
+            mock.Setup(mock => mock.AddAsync(It.IsAny<Favourites>()))
+                .ReturnsAsync(true);
+
+            _favouriteService = new (mock.Object, _mockedLogger.Object);
+
+            // act
+            var result = await _favouriteService.AddToFavouriteAsync(userId, movieId);
+
+            // assert
+            Assert.True(result);
         }
     }
 }

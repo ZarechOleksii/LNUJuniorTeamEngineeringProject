@@ -4,6 +4,6 @@ namespace Services.Interfaces
 {
     public interface IFavouriteService
     {
-        public Task<bool> AddToFavouriteAsync(Favourites favourites);
+        public Task<bool> AddToFavouriteAsync(string userId, Guid movieId);
     }
 }

@@ -65,6 +65,7 @@ namespace WebApp.Controllers
         public async Task<IActionResult> AddToFavourite(Guid id_movie)
         {
             var movie = await _movieService.GetMovieAsync(id_movie);
+
             if (movie is null)
             {
                 return View("~/Views/Shared/Error404.cshtml");
@@ -78,14 +79,14 @@ namespace WebApp.Controllers
                 return View("~/Views/Shared/Error404.cshtml");
             }
 
-            var favourite = new Favourites()
-            {
-                UserId = user.Id,
-                MovieId = movie.Id
-            };
-            await _favouriteService.AddToFavouriteAsync(favourite);
+            var result = await _favouriteService.AddToFavouriteAsync(user.Id, movie.Id);
 
-            return Ok();
+            if (result)
+            {
+                return Ok();
+            }
+
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 }

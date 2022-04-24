@@ -19,6 +19,9 @@ namespace Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Favourites>()
+                .HasIndex(e => new { e.MovieId, e.UserId })
+                .IsUnique();
             base.OnModelCreating(modelBuilder);
         }
     }

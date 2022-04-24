@@ -9,5 +9,6 @@ namespace Models.Entities
 {
     public class User : IdentityUser
     {
+        public List<Favourites> Favorites { get; set; }
     }
 }
