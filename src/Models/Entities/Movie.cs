@@ -23,5 +23,12 @@ namespace Models.Entities
         public string Url { get; set; }
 
         public List<Favourites> Favourites { get; set; }
+        public List<Comment> Comments { get; set; }
+
+        public Movie()
+        {
+            Favourites = new List<Favourites>();
+            Comments = new List<Comment>();
+        }
     }
 }

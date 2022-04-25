@@ -9,6 +9,7 @@ namespace Data
         public DbSet<BaseEntity> BaseEntities { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Favourites> Favourites { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)

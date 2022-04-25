@@ -7,10 +7,10 @@ namespace Services.Implementations
 {
     public class FavouriteService : IFavouriteService
     {
-        private readonly IRepository<Favourites> _repository;
+        private readonly IFavouriteRepository _repository;
         private readonly ILogger<FavouriteService> _logger;
 
-        public FavouriteService(IRepository<Favourites> rep, ILogger<FavouriteService> logger)
+        public FavouriteService(IFavouriteRepository rep, ILogger<FavouriteService> logger)
         {
             _repository = rep;
             _logger = logger;
@@ -37,11 +37,13 @@ namespace Services.Implementations
 
         public async Task<bool> DeleteFromFavouriteAsync(string userId, Guid movieId)
         {
-            Favourites favourites = new ()
+            Favourites? favourites = await _repository
+                .FindByUserAndMovie(userId, movieId);
+
+            if (favourites is null)
             {
-                UserId = userId,
-                MovieId = movieId
-            };
+                return false;
+            }
 
             try
             {

@@ -1,4 +1,5 @@
 ﻿using Data;
+using Data.MovieRepository;
 using Models.Entities;
 using Services.Interfaces;
 
@@ -6,9 +7,9 @@ namespace Services.Implementations
 {
     public class MovieService : IMovieService
     {
-        private readonly IRepository<Movie> _repository;
+        private readonly IMovieRepository _repository;
 
-        public MovieService(IRepository<Movie> rep)
+        public MovieService(IMovieRepository rep)
         {
             _repository = rep;
         }
@@ -20,7 +21,7 @@ namespace Services.Implementations
 
         public async Task<Movie> GetMovieAsync(Guid movieId)
         {
-            return await _repository.GetAsync(movieId);
+            return await _repository.GetWithRelationsAsync(movieId);
         }
     }
 }

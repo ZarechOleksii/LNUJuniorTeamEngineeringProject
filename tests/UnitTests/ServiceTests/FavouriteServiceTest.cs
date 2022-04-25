@@ -24,9 +24,8 @@ namespace UnitTests.DataTests
         public async Task AddToFavourites_WhenRepThrows_ReturnsFalse()
         {
             // arrange
-            var userId = Guid.NewGuid().ToString();
-            var movieId = Guid.NewGuid();
-            var mock = new Mock<IRepository<Favourites>>();
+            var favourite = SampleFavourites();
+            var mock = new Mock<IFavouriteRepository>();
 
             mock.Setup(mock => mock.AddAsync(It.IsAny<Favourites>()))
                 .Throws(new Exception());
@@ -34,7 +33,7 @@ namespace UnitTests.DataTests
             _favouriteService = new (mock.Object, _mockedLogger.Object);
 
             // act
-            var result = await _favouriteService.AddToFavouriteAsync(userId, movieId);
+            var result = await _favouriteService.AddToFavouriteAsync(favourite.UserId, favourite.MovieId);
 
             // assert
             Assert.False(result);
@@ -44,9 +43,12 @@ namespace UnitTests.DataTests
         public async Task DeleteFromFavourites_WhenRepThrows_ReturnsFalse()
         {
             // arrange
-            var userId = Guid.NewGuid().ToString();
-            var movieId = Guid.NewGuid();
-            var mock = new Mock<IRepository<Favourites>>();
+            var favourite = SampleFavourites();
+
+            var mock = new Mock<IFavouriteRepository>();
+
+            mock.Setup(mock => mock.FindByUserAndMovie(favourite.UserId, favourite.MovieId))
+                .ReturnsAsync(favourite);
 
             mock.Setup(mock => mock.DeleteAsync(It.IsAny<Favourites>()))
                 .Throws(new Exception());
@@ -54,7 +56,7 @@ namespace UnitTests.DataTests
             _favouriteService = new (mock.Object, _mockedLogger.Object);
 
             // act
-            var result = await _favouriteService.DeleteFromFavouriteAsync(userId, movieId);
+            var result = await _favouriteService.DeleteFromFavouriteAsync(favourite.UserId, favourite.MovieId);
 
             // assert
             Assert.False(result);
@@ -64,9 +66,8 @@ namespace UnitTests.DataTests
         public async Task AddToFavourites_WhenRepFalse_ReturnsFalse()
         {
             // arrange
-            var userId = Guid.NewGuid().ToString();
-            var movieId = Guid.NewGuid();
-            var mock = new Mock<IRepository<Favourites>>();
+            var favourite = SampleFavourites();
+            var mock = new Mock<IFavouriteRepository>();
 
             mock.Setup(mock => mock.AddAsync(It.IsAny<Favourites>()))
                 .ReturnsAsync(false);
@@ -74,7 +75,7 @@ namespace UnitTests.DataTests
             _favouriteService = new (mock.Object, _mockedLogger.Object);
 
             // act
-            var result = await _favouriteService.AddToFavouriteAsync(userId, movieId);
+            var result = await _favouriteService.AddToFavouriteAsync(favourite.UserId, favourite.MovieId);
 
             // assert
             Assert.False(result);
@@ -84,9 +85,11 @@ namespace UnitTests.DataTests
         public async Task DeleteFromFavourites_WhenRepFalse_ReturnsFalse()
         {
             // arrange
-            var userId = Guid.NewGuid().ToString();
-            var movieId = Guid.NewGuid();
-            var mock = new Mock<IRepository<Favourites>>();
+            var favourite = SampleFavourites();
+            var mock = new Mock<IFavouriteRepository>();
+
+            mock.Setup(mock => mock.FindByUserAndMovie(favourite.UserId, favourite.MovieId))
+                .ReturnsAsync(favourite);
 
             mock.Setup(mock => mock.DeleteAsync(It.IsAny<Favourites>()))
                 .ReturnsAsync(false);
@@ -94,7 +97,7 @@ namespace UnitTests.DataTests
             _favouriteService = new (mock.Object, _mockedLogger.Object);
 
             // act
-            var result = await _favouriteService.DeleteFromFavouriteAsync(userId, movieId);
+            var result = await _favouriteService.DeleteFromFavouriteAsync(favourite.UserId, favourite.MovieId);
 
             // assert
             Assert.False(result);
@@ -104,9 +107,8 @@ namespace UnitTests.DataTests
         public async Task AddToFavourites_WhenRepTrue_ReturnsTrue()
         {
             // arrange
-            var userId = Guid.NewGuid().ToString();
-            var movieId = Guid.NewGuid();
-            var mock = new Mock<IRepository<Favourites>>();
+            var favourite = SampleFavourites();
+            var mock = new Mock<IFavouriteRepository>();
 
             mock.Setup(mock => mock.AddAsync(It.IsAny<Favourites>()))
                 .ReturnsAsync(true);
@@ -114,7 +116,7 @@ namespace UnitTests.DataTests
             _favouriteService = new (mock.Object, _mockedLogger.Object);
 
             // act
-            var result = await _favouriteService.AddToFavouriteAsync(userId, movieId);
+            var result = await _favouriteService.AddToFavouriteAsync(favourite.UserId, favourite.MovieId);
 
             // assert
             Assert.True(result);
@@ -124,9 +126,11 @@ namespace UnitTests.DataTests
         public async Task DeleteFromFavourites_WhenRepTrue_ReturnsTrue()
         {
             // arrange
-            var userId = Guid.NewGuid().ToString();
-            var movieId = Guid.NewGuid();
-            var mock = new Mock<IRepository<Favourites>>();
+            var favourite = SampleFavourites();
+            var mock = new Mock<IFavouriteRepository>();
+
+            mock.Setup(mock => mock.FindByUserAndMovie(favourite.UserId, favourite.MovieId))
+                .ReturnsAsync(favourite);
 
             mock.Setup(mock => mock.DeleteAsync(It.IsAny<Favourites>()))
                 .ReturnsAsync(true);
@@ -134,10 +138,20 @@ namespace UnitTests.DataTests
             _favouriteService = new (mock.Object, _mockedLogger.Object);
 
             // act
-            var result = await _favouriteService.DeleteFromFavouriteAsync(userId, movieId);
+            var result = await _favouriteService.DeleteFromFavouriteAsync(favourite.UserId, favourite.MovieId);
 
             // assert
             Assert.True(result);
+        }
+
+        private static Favourites SampleFavourites()
+        {
+            return new Favourites()
+            {
+                UserId = Guid.NewGuid().ToString(),
+                MovieId = Guid.NewGuid(),
+                Id = Guid.NewGuid()
+            };
         }
     }
 }
