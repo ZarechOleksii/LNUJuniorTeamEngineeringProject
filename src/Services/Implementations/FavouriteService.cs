@@ -34,5 +34,24 @@ namespace Services.Implementations
                 return false;
             }
         }
+
+        public async Task<bool> DeleteFromFavouriteAsync(string userId, Guid movieId)
+        {
+            Favourites favourites = new ()
+            {
+                UserId = userId,
+                MovieId = movieId
+            };
+
+            try
+            {
+                return await _repository.DeleteAsync(favourites);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Caught exception in Favourite service AddToFavouritesAsync");
+                return false;
+            }
+        }
     }
 }

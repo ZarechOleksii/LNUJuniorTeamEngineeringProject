@@ -88,5 +88,35 @@ namespace WebApp.Controllers
 
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
+
+        [HttpDelete]
+
+        // [Authorize]
+        public async Task<IActionResult> DeleteFromFavourite(Guid id_movie)
+        {
+            var movie = await _movieService.GetMovieAsync(id_movie);
+
+            if (movie is null)
+            {
+                return View("~/Views/Shared/Error404.cshtml");
+            }
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user is null)
+            {
+                return View("~/Views/Shared/Error404.cshtml");
+            }
+
+            var result = await _favouriteService.DeleteFromFavouriteAsync(user.Id, movie.Id);
+
+            if (result)
+            {
+                return Ok();
+            }
+
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
     }
 }
