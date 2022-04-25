@@ -19,7 +19,7 @@ namespace Data.MovieRepository
 
             if (movie is null)
             {
-                return movie;
+                return null;
             }
 
             await _context
