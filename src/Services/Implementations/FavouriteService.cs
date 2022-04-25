@@ -49,7 +49,7 @@ namespace Services.Implementations
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Caught exception in Favourite service AddToFavouritesAsync");
+                _logger.LogError(ex, "Caught exception in Favourite service DeleteFromFavouritesAsync");
                 return false;
             }
         }
