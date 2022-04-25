@@ -6,8 +6,9 @@
 }
 
 .movie-player {
-    width: 960px;
-    height: 540px;
+    width: 100%;
+    margin:auto;
+    height: 600px;
 }
 
 .movie-description {

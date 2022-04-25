@@ -1,4 +1,5 @@
 using Data;
+using Data.MovieRepository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -29,9 +30,11 @@ try
     builder.Services.AddScoped<IBaseEntityService, BaseEntityService>();
     builder.Services.AddScoped<IMovieService, MovieService>();
     builder.Services.AddScoped<IFavouriteService, FavouriteService>();
+    builder.Services.AddScoped<ICommentService, CommentService>();
     builder.Services.AddScoped<IRepository<BaseEntity>, BaseRepository<BaseEntity>>();
-    builder.Services.AddScoped<IRepository<Movie>, BaseRepository<Movie>>();
-    builder.Services.AddScoped<IRepository<Favourites>, BaseRepository<Favourites>>();
+    builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+    builder.Services.AddScoped<IFavouriteRepository, FavouriteRepository>();
+    builder.Services.AddScoped<IRepository<Comment>, BaseRepository<Comment>>();
 
     // Database context
     var connectionString = GetHerokuConString();

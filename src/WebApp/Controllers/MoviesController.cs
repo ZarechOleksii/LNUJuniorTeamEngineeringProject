@@ -13,13 +13,20 @@ namespace WebApp.Controllers
         private readonly IMovieService _movieService;
         private readonly UserManager<User> _userManager;
         private readonly IFavouriteService _favouriteService;
+        private readonly ICommentService _commentService;
 
-        public MoviesController(ILogger<MoviesController> logger, IMovieService movieService, UserManager<User> userManager, IFavouriteService favouriteService)
+        public MoviesController(
+            ILogger<MoviesController> logger,
+            IMovieService movieService,
+            UserManager<User> userManager,
+            IFavouriteService favouriteService,
+            ICommentService commentService)
         {
             _logger = logger;
             _movieService = movieService;
             _userManager = userManager;
             _favouriteService = favouriteService;
+            _commentService = commentService;
         }
 
         public IActionResult Index()
@@ -44,7 +51,7 @@ namespace WebApp.Controllers
             }
 
             await _movieService.AddMovieAsync(movie);
-            return View("~/Views/Home/Index.cshtml");
+            return RedirectToAction("Get", new { id = movie.Id });
         }
 
         [HttpGet]
@@ -110,6 +117,30 @@ namespace WebApp.Controllers
             }
 
             var result = await _favouriteService.DeleteFromFavouriteAsync(user.Id, movie.Id);
+
+            if (result)
+            {
+                return Ok();
+            }
+
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
+        [HttpPost]
+        // [Authorize]
+        public async Task<IActionResult> AddComment(Comment comment)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user is null)
+            {
+                return View("~/Views/Shared/Error404.cshtml");
+            }
+
+            comment.UserId = userId;
+
+            var result = await _commentService.AddCommentAsync(comment);
 
             if (result)
             {
