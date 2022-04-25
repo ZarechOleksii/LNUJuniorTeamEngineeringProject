@@ -6,6 +6,8 @@
         <meta charset="utf-8" />
         <title>@Model.Name</title>
         <link rel="stylesheet" href="~/css/Movie/MoviePage.css" />
+        <link rel="stylesheet" href="~/css/Movie/AddToFavourite.css" />
+        <script src="~/js/AddToFavourite.js"></script>
 
     </head>
     <body>
@@ -19,6 +21,54 @@
                 scrolling ="no"
                 allowfullscreen>
         </iframe>
+        <div class="add-to-favourite-area">
+            <div class="add-to-favourite-button">
+                <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+                <script>
+                    function add_to_favorite(){
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("AddToFavourite")",
+                            data: {id_movie: '@Model.Id'},
+                            async: true,
+                            dataType: "text",
+                            success: function (msg) {
+                                console.log("OK: added to favorite");
+                                var b = document.getElementsByClassName("favorite-button")[0];
+                                b.setAttribute("onclick", "delete_from_favorite()");
+                                b.innerHTML = "Delete from Favorites";
+                                b.setAttribute("class", "favorite-button-delete");
+                            },
+                            error: function (req, status, error) {
+                                console.log("BAD: NOT added to favorite");
+                            }
+                         });
+                    }
+                    function delete_from_favorite(){
+                        $.ajax({
+                            type: "DELETE",
+                            url: "@Url.Action("DeleteFromFavourite")",
+                            data: {id_movie: '@Model.Id'},
+                            async: true,
+                            dataType: "text",
+                            success: function (msg) {
+                                console.log("OK: deleted from favorite");
+                                var b = document.getElementsByClassName("favorite-button-delete")[0];
+                                b.setAttribute("onclick", "add_to_favorite()");
+                                b.innerHTML = "Add to Favorites";
+                                b.setAttribute("class", "favorite-button");
+                            },
+                            error: function (req, status, error) {
+                                console.log("BAD: NOT deleted from favorite");
+                            }
+                         });
+                    }
+                </script>
+
+                <button class="favorite-button" onclick="add_to_favorite()">Add to Favorites</button>
+                
+            </div>
+        </div>
         <p class="movie-description">@Model.Description</p>
 
 </body>

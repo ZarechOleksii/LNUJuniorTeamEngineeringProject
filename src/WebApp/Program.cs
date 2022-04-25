@@ -28,8 +28,10 @@ try
     builder.Services.AddControllersWithViews();
     builder.Services.AddScoped<IBaseEntityService, BaseEntityService>();
     builder.Services.AddScoped<IMovieService, MovieService>();
+    builder.Services.AddScoped<IFavouriteService, FavouriteService>();
     builder.Services.AddScoped<IRepository<BaseEntity>, BaseRepository<BaseEntity>>();
     builder.Services.AddScoped<IRepository<Movie>, BaseRepository<Movie>>();
+    builder.Services.AddScoped<IRepository<Favourites>, BaseRepository<Favourites>>();
 
     // Database context
     var connectionString = GetHerokuConString();
