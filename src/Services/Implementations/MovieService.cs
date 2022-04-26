@@ -1,5 +1,4 @@
-﻿using Data;
-using Data.MovieRepository;
+﻿using Data.MovieRepository;
 using Models.Entities;
 using Services.Interfaces;
 
