@@ -47,9 +47,14 @@ try
     }
 
     builder.Services.AddDbContext<ApplicationContext>(x => x.UseNpgsql(connectionString));
-    builder.Services.AddIdentity<User, IdentityRole>()
+    builder.Services.AddIdentity<User, IdentityRole>(option =>
+        {
+            option.Password.RequiredLength = 8;
+            option.Password.RequireNonAlphanumeric = false;
+        })
         .AddRoles<IdentityRole>()
-        .AddEntityFrameworkStores<ApplicationContext>();
+        .AddEntityFrameworkStores<ApplicationContext>()
+        .AddDefaultTokenProviders();
 
     var app = builder.Build();
 

@@ -25,7 +25,7 @@ namespace Services.Implementations
             _logger = logger;
         }
 
-        public async Task<bool> SendMailAsync(string to, string message, string subject)
+        public async Task<bool> SendMailAsync(string to, string subject, string message)
         {
             try
             {
@@ -52,6 +52,23 @@ namespace Services.Implementations
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Caught exception while trying to send email");
+                return false;
+            }
+        }
+
+        public async Task<bool> SendHtmlEmailAsync(string to, string subject, string templateName, params string[] parameters)
+        {
+            try
+            {
+                var template = await File.ReadAllTextAsync(Path.Combine(Directory.GetCurrentDirectory(), "..") + templateName);
+
+                var content = string.Format(template, parameters);
+
+                return await SendMailAsync(to, subject, content);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Caught exception while trying to send email with template");
                 return false;
             }
         }

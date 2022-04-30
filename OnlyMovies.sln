@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedResources", "src\SharedResources\SharedResources.csproj", "{9C0AA760-3182-4940-AF5B-5949260497CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,12 @@ Global
 		{3BC53E28-8546-492C-9145-4D0B2F6BF245}.Local|Any CPU.Build.0 = Debug|Any CPU
 		{3BC53E28-8546-492C-9145-4D0B2F6BF245}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BC53E28-8546-492C-9145-4D0B2F6BF245}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C0AA760-3182-4940-AF5B-5949260497CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C0AA760-3182-4940-AF5B-5949260497CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C0AA760-3182-4940-AF5B-5949260497CF}.Local|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C0AA760-3182-4940-AF5B-5949260497CF}.Local|Any CPU.Build.0 = Debug|Any CPU
+		{9C0AA760-3182-4940-AF5B-5949260497CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C0AA760-3182-4940-AF5B-5949260497CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
