@@ -30,14 +30,14 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         public IActionResult Add()
         {
             return View();
         }
 
         [HttpPost]
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> AddAsync(Movie movie)
         {
             if (!ModelState.IsValid)
@@ -53,9 +53,10 @@ namespace WebApp.Controllers
         public async Task<ActionResult<Movie>> GetAsync(Guid id)
         {
             var movie = await _movieService.GetMovieAsync(id);
+
             if (movie is null)
             {
-                return View("~/Views/Shared/Error404.cshtml");
+                return View("Error", "Sorry, this movie was not found.");
             }
 
             return View(movie);
@@ -63,14 +64,14 @@ namespace WebApp.Controllers
 
         [HttpPost]
 
-        // [Authorize]
+        [Authorize]
         public async Task<IActionResult> AddToFavourite(Guid id_movie)
         {
             var movie = await _movieService.GetMovieAsync(id_movie);
 
             if (movie is null)
             {
-                return View("~/Views/Shared/Error404.cshtml");
+                return View("Error", "Failed to add to favourites.");
             }
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -78,7 +79,7 @@ namespace WebApp.Controllers
 
             if (user is null)
             {
-                return View("~/Views/Shared/Error404.cshtml");
+                return View("Error", "Failed to add to favourites.");
             }
 
             var result = await _favouriteService.AddToFavouriteAsync(user.Id, movie.Id);
@@ -92,15 +93,14 @@ namespace WebApp.Controllers
         }
 
         [HttpDelete]
-
-        // [Authorize]
+        [Authorize]
         public async Task<IActionResult> DeleteFromFavourite(Guid id_movie)
         {
             var movie = await _movieService.GetMovieAsync(id_movie);
 
             if (movie is null)
             {
-                return View("~/Views/Shared/Error404.cshtml");
+                return View("Error", "Failed to remove from favourites.");
             }
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -108,7 +108,7 @@ namespace WebApp.Controllers
 
             if (user is null)
             {
-                return View("~/Views/Shared/Error404.cshtml");
+                return View("Error", "Failed to remove from favourites.");
             }
 
             var result = await _favouriteService.DeleteFromFavouriteAsync(user.Id, movie.Id);
@@ -122,7 +122,7 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
-        // [Authorize]
+        [Authorize]
         public async Task<IActionResult> AddComment(Comment comment)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -130,7 +130,7 @@ namespace WebApp.Controllers
 
             if (user is null)
             {
-                return View("~/Views/Shared/Error404.cshtml");
+                return View("Error", "Failed to add comment.");
             }
 
             comment.UserId = userId;
