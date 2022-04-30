@@ -28,6 +28,7 @@ try
     // Add services to the container.
     builder.Services.AddControllersWithViews();
     builder.Services.AddScoped<IBaseEntityService, BaseEntityService>();
+    builder.Services.AddScoped<IMailService, MailService>();
     builder.Services.AddScoped<IMovieService, MovieService>();
     builder.Services.AddScoped<IFavouriteService, FavouriteService>();
     builder.Services.AddScoped<ICommentService, CommentService>();

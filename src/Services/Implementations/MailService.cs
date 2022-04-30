@@ -1,66 +1,59 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Configuration;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
+using Microsoft.Extensions.Logging;
+using Services.Interfaces;
 
 namespace Services.Implementations
 {
-    public class MailService
+    public class MailService : IMailService
     {
-        private static readonly MailAddress _from = new MailAddress("onlymovieslnu@gmail.com", "OnlyMovies2 Team");
-        private static readonly string SmtpGmail = "smtp.gmail.com";
-        private static readonly int SmtpGmailPort = 587;
-        private static readonly string SmtpGmailLogin = "onlymovieslnu@gmail.com";
-        private static readonly string SmtpGmailPassword = "OnlyMovies2022";
-        private static readonly bool SslEnable = true;
-        private static bool mailSent = false;
+        private const string SmtpGmail = Constants.SmtpGmail;
+        private const int SmtpGmailPort = Constants.SmtpGmailPort;
+        private const string SmtpGmailLogin = Constants.SmtpGmailLogin;
+        private const string SmtpGmailPassword = Constants.SmtpGmailPassword;
+        private const bool SslEnable = Constants.SslEnable;
+        private static readonly MailAddress _from = new (Constants.SmtpGmailLogin, Constants.MailAuthor);
 
-        public bool SendMail(string to, string message, string sub)
+        private readonly ILogger<MailService> _logger;
+
+        public MailService(ILogger<MailService> logger)
+        {
+            _logger = logger;
+        }
+
+        public async Task<bool> SendMailAsync(string to, string message, string subject)
         {
             try
             {
+                var smtp = new SmtpClient(SmtpGmail, SmtpGmailPort)
+                {
+                    Credentials = new NetworkCredential(SmtpGmailLogin, SmtpGmailPassword),
+                    EnableSsl = SslEnable
+                };
+
                 var toEmail = new MailAddress(to);
-                var smtp = new SmtpClient(SmtpGmail, SmtpGmailPort);
-                smtp.Credentials = new NetworkCredential(SmtpGmailLogin, SmtpGmailPassword);
-                smtp.EnableSsl = SslEnable;
-                smtp.SendCompleted += new SendCompletedEventHandler(SendCompletedCallback);
-                string userState = "Orc massage";
-                var mailMessage = new MailMessage(_from, toEmail);
-                mailMessage.Body = message;
-                mailMessage.BodyEncoding = Encoding.UTF8;
-                mailMessage.Subject = sub;
-                mailMessage.SubjectEncoding = Encoding.UTF8;
-                smtp.SendAsync(mailMessage, userState);
+                var mailMessage = new MailMessage(_from, toEmail)
+                {
+                    Body = message,
+                    BodyEncoding = Encoding.UTF8,
+                    Subject = subject,
+                    SubjectEncoding = Encoding.UTF8,
+                    IsBodyHtml = true
+                };
+
+                await smtp.SendMailAsync(mailMessage);
                 mailMessage.Dispose();
                 return true;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
+                _logger.LogError(ex, "Caught exception while trying to send email");
                 return false;
             }
-        }
-
-        private static void SendCompletedCallback(object sender, AsyncCompletedEventArgs e)
-        {
-            // Get the unique identifier for this asynchronous operation.
-            string token = (string)e.UserState;
-
-            if (e.Cancelled)
-            {
-                Console.WriteLine("[{0}] Send canceled.", token);
-            }
-
-            if (e.Error != null)
-            {
-                Console.WriteLine("[{0}] {1}", token, e.Error.ToString());
-            }
-            else
-            {
-                Console.WriteLine("Message sent.");
-            }
-
-            mailSent = true;
         }
     }
 }
