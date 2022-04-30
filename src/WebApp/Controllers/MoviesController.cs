@@ -29,11 +29,6 @@ namespace WebApp.Controllers
             _commentService = commentService;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         [HttpGet]
         //[Authorize(Roles = "admin")]
         public IActionResult Add()
@@ -51,7 +46,7 @@ namespace WebApp.Controllers
             }
 
             await _movieService.AddMovieAsync(movie);
-            return RedirectToAction("Get", new { id = movie.Id });
+            return RedirectToAction(nameof(GetAsync), new { id = movie.Id });
         }
 
         [HttpGet]
@@ -123,7 +118,7 @@ namespace WebApp.Controllers
                 return Ok();
             }
 
-            return StatusCode(StatusCodes.Status500InternalServerError);
+            return BadRequest();
         }
 
         [HttpPost]
@@ -147,7 +142,7 @@ namespace WebApp.Controllers
                 return Ok();
             }
 
-            return StatusCode(StatusCodes.Status500InternalServerError);
+            return BadRequest();
         }
     }
 }
