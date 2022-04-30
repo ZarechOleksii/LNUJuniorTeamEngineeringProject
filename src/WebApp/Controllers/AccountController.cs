@@ -127,5 +127,69 @@ namespace WebApp.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction(nameof(HomeController.Index), nameof(HomeController));
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var user = await _userManager.FindByEmailAsync(model.Email);
+                    if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                    {
+                        _logger.LogInformation($"Unable to find user with email {model.Email}");
+                        return View();  // should return success view
+                    }
+
+                    var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+                    // for Sergiy
+                    // url is created like "{base url}/{second argument}/{first argument}?userId={user id}&code={code}"
+                    var callbackUrl = Url.Action("ResetPassword", "ResetPassword", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                    await _mailService.SendMailAsync(
+                        model.Email,
+                        "OnlyMovies password reset",
+                        $"Click this link to reset your password: <a href='{callbackUrl}'>link</a>");
+
+                    return View();  // should return success view
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Got error in ForgotPassword method in PasswordResetController");
+                    return View("Error", "Unable to start reset password process. Please try again or contact administrator.");
+                }
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (model.Password != model.ConfirmPassword)
+            {
+                _logger.LogInformation($"User {model.UserEmail} passwords missmatch");
+                return View("Error", "Unable to reset your password. Passwords missmatch.");
+            }
+
+            var user = await _userManager.FindByEmailAsync(model.UserEmail);
+            if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+            {
+                _logger.LogInformation($"Unable to find user with email {model.UserEmail}");
+                return View("Error", $"Unable to reset password for user with email {model.UserEmail}. User not found.");
+            }
+
+            var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+
+            if (result.Succeeded)
+            {
+                return View();    // should return success view
+            }
+
+            return View("Error", "Unable to reset your password. Please try again or contact administrator.");
+        }
     }
 }
