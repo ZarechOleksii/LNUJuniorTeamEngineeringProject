@@ -16,3 +16,52 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.navbar-brand-logo{
+    background-image: url('../img/Layout/MainLogo.png');
+    background-size:contain;
+    background-repeat: no-repeat;
+    height: 45px;
+    width: 60px;
+    margin: 5px;
+}
+
+.log-in-button-nav {
+    border: 2px solid #23B298;
+    transition: 0.3s ease;
+    border-radius: 20px;
+    width: 100px;
+    text-align: center;
+    margin-left: 415%;
+}
+
+.log-in-button-nav-p {
+    border: 0px solid #23B2AC;
+    transition: 0.3s ease;
+    border-radius: 7px;
+    text-align: center;
+    margin: -3px;
+    color: #23B298;
+}
+
+.register-button-nav {
+    border: 0px solid #23B298;
+    padding: 10px;
+    border-radius: 20px;
+    width: 100px;
+    text-align: center;
+    background: linear-gradient(45deg, #23B2AC, #5D78FF);
+}
+
+    .register-button-nav:hover {
+        background: linear-gradient(45deg, #5D78FF, #23B2AC);
+    }
+
+.register-button-nav-p {
+    border: 0px solid #23B2AC;
+    transition: 0.3s ease;
+    border-radius: 7px;
+    text-align: center;
+    margin: -3px;
+    color: white;
+}

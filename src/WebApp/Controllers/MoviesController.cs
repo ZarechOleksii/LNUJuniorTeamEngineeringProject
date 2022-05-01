@@ -62,6 +62,36 @@ namespace WebApp.Controllers
             return View(movie);
         }
 
+        [HttpGet]
+
+        [Authorize]
+        public async Task<IActionResult> CheckIfFavourite(Guid id_movie)
+        {
+            var movie = await _movieService.GetMovieAsync(id_movie);
+
+            if (movie is null)
+            {
+                return BadRequest();
+            }
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user is null)
+            {
+                return BadRequest();
+            }
+
+            var result = await _favouriteService.IsAlreadyFavouriteAsync(user.Id, movie.Id);
+
+            if (result)
+            {
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
         [HttpPost]
 
         [Authorize]
