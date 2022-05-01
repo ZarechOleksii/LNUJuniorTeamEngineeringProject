@@ -84,10 +84,10 @@ try
         app.UseHsts();
     }
 
-    app.UseAuthentication();
     app.UseHttpsRedirection();
     app.UseStaticFiles();
     app.UseRouting();
+    app.UseAuthentication();
     app.UseAuthorization();
 
     app.MapControllerRoute(
