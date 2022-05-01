@@ -1,0 +1,39 @@
+﻿@model RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+<head>
+    <link rel="stylesheet" href="~/css/Account/AuthForms.css" />
+</head>
+<div class="auth-title">
+    @ViewData["Title"]
+</div>
+<div class="auth-form">
+    <form asp-action="Register">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Email" class="control-label"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Username" class="control-label"></label>
+            <input asp-for="Username" class="form-control" />
+            <span asp-validation-for="Username" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password" class="control-label"></label>
+            <input asp-for="Password" class="form-control" type="password" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="RepeatPassword" class="control-label"></label>
+            <input asp-for="RepeatPassword" class="form-control" type="password" />
+            <span asp-validation-for="RepeatPassword" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Register" class="btn btn-primary" />
+        </div>
+    </form>
+</div>   

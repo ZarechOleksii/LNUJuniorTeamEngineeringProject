@@ -6,5 +6,6 @@ namespace Services.Interfaces
     {
         public Task<bool> AddToFavouriteAsync(string userId, Guid movieId);
         public Task<bool> DeleteFromFavouriteAsync(string userId, Guid movieId);
+        public Task<bool> IsAlreadyFavouriteAsync(string userId, Guid movieId);
     }
 }

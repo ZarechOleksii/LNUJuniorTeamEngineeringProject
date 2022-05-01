@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models.Entities;
+using Services.Implementations;
 using Services.Interfaces;
 using WebApp.ViewModels;
 
@@ -125,11 +126,19 @@ namespace WebApp.Controllers
         public async Task<IActionResult> LogoutAsync()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction(nameof(HomeController.Index), nameof(HomeController));
+            return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ForgotPassword()
+        {
+            return View();
         }
 
         [HttpPost]
         [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
             if (ModelState.IsValid)
@@ -140,20 +149,18 @@ namespace WebApp.Controllers
                     if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
                     {
                         _logger.LogInformation($"Unable to find user with email {model.Email}");
-                        return View();  // should return success view
+                        return View("ForgotPasswordConfirmation");
                     }
 
                     var code = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-                    // for Sergiy
-                    // url is created like "{base url}/{second argument}/{first argument}?userId={user id}&code={code}"
-                    var callbackUrl = Url.Action("ResetPassword", "ResetPassword", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                    var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
                     await _mailService.SendMailAsync(
                         model.Email,
                         "OnlyMovies password reset",
                         $"Click this link to reset your password: <a href='{callbackUrl}'>link</a>");
 
-                    return View();  // should return success view
+                    return View("ForgotPasswordConfirmation");
                 }
                 catch (Exception ex)
                 {
@@ -165,28 +172,37 @@ namespace WebApp.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ResetPassword(string code = null)
+        {
+            ViewBag.Token = code;
+            return code == null ? View("Error") : View();
+        }
+
         [HttpPost]
         [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
             if (model.Password != model.ConfirmPassword)
             {
-                _logger.LogInformation($"User {model.UserEmail} passwords missmatch");
+                _logger.LogInformation($"User {model.Email} passwords missmatch");
                 return View("Error", "Unable to reset your password. Passwords missmatch.");
             }
 
-            var user = await _userManager.FindByEmailAsync(model.UserEmail);
+            var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
             {
-                _logger.LogInformation($"Unable to find user with email {model.UserEmail}");
-                return View("Error", $"Unable to reset password for user with email {model.UserEmail}. User not found.");
+                _logger.LogInformation($"Unable to find user with email {model.Email}");
+                return View("Error", $"Unable to reset password for user with email {model.Email}. User not found.");
             }
 
             var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
 
             if (result.Succeeded)
             {
-                return View();    // should return success view
+                return View("Login");
             }
 
             return View("Error", "Unable to reset your password. Please try again or contact administrator.");

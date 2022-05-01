@@ -5,15 +5,18 @@ namespace WebApp.ViewModels
     public class ResetPasswordViewModel
     {
         [Required]
-        public string UserEmail { get; set; }
+        [EmailAddress]
+        public string Email { get; set; }
 
         [Required]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm password")]
+        [Compare("Password", ErrorMessage = "Password and Confirm Password must match")]
         public string ConfirmPassword { get; set; }
 
-        [Required]
         public string Token { get; set; }
     }
 }
