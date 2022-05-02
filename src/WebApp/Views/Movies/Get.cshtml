@@ -71,15 +71,10 @@
         <input name="MovieId" type="hidden" value=@Model.Id />
         <button type="submit">Add rate</button>
     </form>
-    <h3>Rates:</h3>
-    <div id="rating">
-        @foreach (var rate in Model.Rating)
-        {
-            <div>
-                <p>@rate.User.UserName: @rate.Rate</p>
-            </div>
-        }
-    </div>
+    @{
+        var averageRate = Convert.ToDouble(@Model.Rating.Sum(x => x.Rate)) / @Model.Rating.Count;
+    }
+    <h3>Average rate: @(@Model.Rating.Count == 0 ? "There are no rates yet" : @averageRate.ToString("0.##"))</h3>
 
 
     <form id="comment" action="/Movies/AddComment" method="post" target="empty">

@@ -20,6 +20,14 @@ namespace Services.Implementations
         {
             try
             {
+                var previousRate = (await _repository.FetchAllNoTracking())
+                    .FirstOrDefault(x => x.MovieId == movieRate.MovieId && x.UserId == movieRate.UserId);
+
+                if (previousRate != null)
+                {
+                    await _repository.DeleteAsync(previousRate);
+                }
+
                 return await _repository.AddAsync(movieRate);
             }
             catch (Exception ex)
