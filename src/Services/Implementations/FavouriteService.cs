@@ -18,7 +18,7 @@ namespace Services.Implementations
 
         public async Task<bool> AddToFavouriteAsync(string userId, Guid movieId)
         {
-            Favourites favourites = new ()
+            Favourites favourites = new()
             {
                 UserId = userId,
                 MovieId = movieId
@@ -52,6 +52,29 @@ namespace Services.Implementations
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Caught exception in Favourite service DeleteFromFavouritesAsync");
+                return false;
+            }
+        }
+
+        public async Task<bool> IsAlreadyFavouriteAsync(string userId, Guid movieId)
+        {
+            try
+            {
+                Favourites? favourites = await _repository
+                .FindByUserAndMovie(userId, movieId);
+
+                if (favourites is null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Caught exception in Favourite service IsAlreadyFavouriteAsync");
                 return false;
             }
         }

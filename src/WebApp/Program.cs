@@ -28,13 +28,16 @@ try
     // Add services to the container.
     builder.Services.AddControllersWithViews();
     builder.Services.AddScoped<IBaseEntityService, BaseEntityService>();
+    builder.Services.AddScoped<IMailService, MailService>();
     builder.Services.AddScoped<IMovieService, MovieService>();
+    builder.Services.AddScoped<IRatingService, RatingService>();
     builder.Services.AddScoped<IFavouriteService, FavouriteService>();
     builder.Services.AddScoped<ICommentService, CommentService>();
     builder.Services.AddScoped<IRepository<BaseEntity>, BaseRepository<BaseEntity>>();
     builder.Services.AddScoped<IMovieRepository, MovieRepository>();
     builder.Services.AddScoped<IFavouriteRepository, FavouriteRepository>();
     builder.Services.AddScoped<IRepository<Comment>, BaseRepository<Comment>>();
+    builder.Services.AddScoped<IRepository<MovieRate>, BaseRepository<MovieRate>>();
 
     // Database context
     var connectionString = GetHerokuConString();
@@ -46,9 +49,14 @@ try
     }
 
     builder.Services.AddDbContext<ApplicationContext>(x => x.UseNpgsql(connectionString));
-    builder.Services.AddIdentity<User, IdentityRole>()
+    builder.Services.AddIdentity<User, IdentityRole>(option =>
+        {
+            option.Password.RequiredLength = 8;
+            option.Password.RequireNonAlphanumeric = false;
+        })
         .AddRoles<IdentityRole>()
-        .AddEntityFrameworkStores<ApplicationContext>();
+        .AddEntityFrameworkStores<ApplicationContext>()
+        .AddDefaultTokenProviders();
 
     var app = builder.Build();
 
@@ -78,11 +86,11 @@ try
         app.UseHsts();
     }
 
-    app.UseAuthentication();
-    app.UseAuthorization();
     app.UseHttpsRedirection();
     app.UseStaticFiles();
     app.UseRouting();
+    app.UseAuthentication();
+    app.UseAuthorization();
 
     app.MapControllerRoute(
         name: "default",

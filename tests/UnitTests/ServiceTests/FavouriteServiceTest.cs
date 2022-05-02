@@ -144,12 +144,48 @@ namespace UnitTests.DataTests
             Assert.True(result);
         }
 
+        [Fact]
+        public async Task IsAlreadyFavourites_WhenRepTrue_ReturnsTrue()
+        {
+            // arrange
+            var user = SampleUser();
+            var movie = SampleMovie();
+            var mock = new Mock<IFavouriteRepository>();
+
+            mock.Setup(mock => mock.FindByUserAndMovie(user.Id, movie.Id))
+                .ReturnsAsync(new Favourites { UserId = user.Id, MovieId = movie.Id });
+
+            _favouriteService = new (mock.Object, _mockedLogger.Object);
+
+            // act
+            var result = await _favouriteService.IsAlreadyFavouriteAsync(user.Id, movie.Id);
+
+            // assert
+            Assert.True(result);
+        }
+
         private static Favourites SampleFavourites()
         {
             return new Favourites()
             {
                 UserId = Guid.NewGuid().ToString(),
                 MovieId = Guid.NewGuid(),
+                Id = Guid.NewGuid()
+            };
+        }
+
+        private static User SampleUser()
+        {
+            return new User()
+            {
+                Id = Guid.NewGuid().ToString()
+            };
+        }
+
+        private static Movie SampleMovie()
+        {
+            return new Movie()
+            {
                 Id = Guid.NewGuid()
             };
         }

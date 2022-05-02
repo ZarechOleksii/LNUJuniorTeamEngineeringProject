@@ -18,7 +18,7 @@ namespace Services.Implementations
             return await _repository.AddAsync(movie);
         }
 
-        public async Task<Movie> GetMovieAsync(Guid movieId)
+        public async Task<Movie?> GetMovieAsync(Guid movieId)
         {
             return await _repository.GetWithRelationsAsync(movieId);
         }
