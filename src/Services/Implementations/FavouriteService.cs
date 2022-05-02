@@ -67,10 +67,8 @@ namespace Services.Implementations
                 {
                     return false;
                 }
-                else
-                {
-                    return true;
-                }
+
+                return true;
             }
             catch (Exception ex)
             {

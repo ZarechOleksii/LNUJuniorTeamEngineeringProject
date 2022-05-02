@@ -145,14 +145,14 @@ namespace UnitTests.DataTests
         }
 
         [Fact]
-        public async Task IsAlreadyFavourites_WhenRepTrue_ReturnsTrue()
+        public async Task IsAlreadyFavourites_WhenRepFound_ReturnsTrue()
         {
             // arrange
             var user = SampleUser();
             var movie = SampleMovie();
             var mock = new Mock<IFavouriteRepository>();
 
-            mock.Setup(mock => mock.FindByUserAndMovie(user.Id, movie.Id))
+            mock.Setup(mock => mock.FindByUserAndMovie(It.IsAny<string>(), It.IsAny<Guid>()))
                 .ReturnsAsync(new Favourites { UserId = user.Id, MovieId = movie.Id });
 
             _favouriteService = new (mock.Object, _mockedLogger.Object);
@@ -162,6 +162,46 @@ namespace UnitTests.DataTests
 
             // assert
             Assert.True(result);
+        }
+
+        [Fact]
+        public async Task IsAlreadyFavourites_WhenRepNotFound_ReturnsFalse()
+        {
+            // arrange
+            var user = SampleUser();
+            var movie = SampleMovie();
+            var mock = new Mock<IFavouriteRepository>();
+
+            mock.Setup(mock => mock.FindByUserAndMovie(It.IsAny<string>(), It.IsAny<Guid>()))
+                .ReturnsAsync((Favourites?)null);
+
+            _favouriteService = new (mock.Object, _mockedLogger.Object);
+
+            // act
+            var result = await _favouriteService.IsAlreadyFavouriteAsync(user.Id, movie.Id);
+
+            // assert
+            Assert.False(result);
+        }
+
+        [Fact]
+        public async Task IsAlreadyFavourites_WhenRepThrows_ReturnsFalse()
+        {
+            // arrange
+            var user = SampleUser();
+            var movie = SampleMovie();
+            var mock = new Mock<IFavouriteRepository>();
+
+            mock.Setup(mock => mock.FindByUserAndMovie(It.IsAny<string>(), It.IsAny<Guid>()))
+                .Throws(new Exception());
+
+            _favouriteService = new (mock.Object, _mockedLogger.Object);
+
+            // act
+            var result = await _favouriteService.IsAlreadyFavouriteAsync(user.Id, movie.Id);
+
+            // assert
+            Assert.False(result);
         }
 
         private static Favourites SampleFavourites()
