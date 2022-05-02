@@ -27,16 +27,16 @@ body {
 }
 
 .log-in-button-nav {
+    padding: 8px;
     border: 2px solid #23B298;
     transition: 0.3s ease;
     border-radius: 20px;
     width: 100px;
     text-align: center;
-    margin-left: 415%;
+    margin: 3px 5px 3px 0px;
 }
 
 .log-in-button-nav-p {
-    border: 0px solid #23B2AC;
     transition: 0.3s ease;
     border-radius: 7px;
     text-align: center;
@@ -45,12 +45,12 @@ body {
 }
 
 .register-button-nav {
-    border: 0px solid #23B298;
     padding: 10px;
     border-radius: 20px;
     width: 100px;
     text-align: center;
     background: linear-gradient(45deg, #23B2AC, #5D78FF);
+    margin: 3px 5px 3px 0px;
 }
 
     .register-button-nav:hover {
@@ -58,7 +58,6 @@ body {
     }
 
 .register-button-nav-p {
-    border: 0px solid #23B2AC;
     transition: 0.3s ease;
     border-radius: 7px;
     text-align: center;
