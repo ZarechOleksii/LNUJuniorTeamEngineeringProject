@@ -30,12 +30,14 @@ try
     builder.Services.AddScoped<IBaseEntityService, BaseEntityService>();
     builder.Services.AddScoped<IMailService, MailService>();
     builder.Services.AddScoped<IMovieService, MovieService>();
+    builder.Services.AddScoped<IRatingService, RatingService>();
     builder.Services.AddScoped<IFavouriteService, FavouriteService>();
     builder.Services.AddScoped<ICommentService, CommentService>();
     builder.Services.AddScoped<IRepository<BaseEntity>, BaseRepository<BaseEntity>>();
     builder.Services.AddScoped<IMovieRepository, MovieRepository>();
     builder.Services.AddScoped<IFavouriteRepository, FavouriteRepository>();
     builder.Services.AddScoped<IRepository<Comment>, BaseRepository<Comment>>();
+    builder.Services.AddScoped<IRepository<MovieRate>, BaseRepository<MovieRate>>();
 
     // Database context
     var connectionString = GetHerokuConString();

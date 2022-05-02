@@ -14,30 +14,33 @@ namespace WebApp.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IFavouriteService _favouriteService;
         private readonly ICommentService _commentService;
+        private readonly IRatingService _ratingService;
 
         public MoviesController(
             ILogger<MoviesController> logger,
             IMovieService movieService,
             UserManager<User> userManager,
             IFavouriteService favouriteService,
-            ICommentService commentService)
+            ICommentService commentService,
+            IRatingService ratingService)
         {
             _logger = logger;
             _movieService = movieService;
             _userManager = userManager;
             _favouriteService = favouriteService;
             _commentService = commentService;
+            _ratingService = ratingService;
         }
 
         [HttpGet]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Add()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddAsync(Movie movie)
         {
             if (!ModelState.IsValid)
@@ -46,7 +49,7 @@ namespace WebApp.Controllers
             }
 
             await _movieService.AddMovieAsync(movie);
-            return RedirectToAction(nameof(GetAsync), new { id = movie.Id });
+            return RedirectToAction("Get", new { id = movie.Id });
         }
 
         [HttpGet]
@@ -166,6 +169,30 @@ namespace WebApp.Controllers
             comment.UserId = userId;
 
             var result = await _commentService.AddCommentAsync(comment);
+
+            if (result)
+            {
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AddRate(MovieRate movieRate)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user is null)
+            {
+                return View("~/Views/Shared/Error404.cshtml");
+            }
+
+            movieRate.UserId = userId;
+
+            var result = await _ratingService.AddRateAsync(movieRate);
 
             if (result)
             {

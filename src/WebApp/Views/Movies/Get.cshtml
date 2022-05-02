@@ -65,6 +65,18 @@
     <p class="movie-description">@Model.Description</p>
 
 
+    <form id="rating" action="/Movies/AddRate" method="post" target="empty">
+        <h2>Add Rate: </h2>
+        <input name="Rate" type="range" min="1" max="10" class="rating-input">
+        <input name="MovieId" type="hidden" value=@Model.Id />
+        <button type="submit">Add rate</button>
+    </form>
+    @{
+        var averageRate = Convert.ToDouble(@Model.Rating.Sum(x => x.Rate)) / @Model.Rating.Count;
+    }
+    <h3>Average rate: @(@Model.Rating.Count == 0 ? "There are no rates yet" : @averageRate.ToString("0.##"))</h3>
+
+
     <form id="comment" action="/Movies/AddComment" method="post" target="empty">
         <h2>Add comment: </h2>
         <textarea name="Content" type="text" maxlength=500 required></textarea>

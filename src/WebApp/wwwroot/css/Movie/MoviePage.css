@@ -14,3 +14,7 @@
     font-size: large;
     width: 100%;
 }
+
+.rating-input {
+    width: 1000px;
+}

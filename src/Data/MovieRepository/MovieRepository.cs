@@ -15,6 +15,8 @@ namespace Data.MovieRepository
             var movie = await _set
                 .Include(movie => movie.Comments)
                 .ThenInclude(q => q.User)
+                .Include(movie => movie.Rating)
+                .ThenInclude(rate => rate.User)
                 .FirstOrDefaultAsync(q => q.Id == id);
 
             if (movie is null)
