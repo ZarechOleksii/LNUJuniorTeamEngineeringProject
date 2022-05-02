@@ -10,12 +10,13 @@ namespace Data
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Favourites> Favourites { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<MovieRate> MovieRating { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
-            //Database.EnsureDeletedAsync().Wait();
-            //Database.EnsureCreatedAsync().Wait();
+            // Database.EnsureDeletedAsync().Wait();
+            // Database.EnsureCreatedAsync().Wait();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

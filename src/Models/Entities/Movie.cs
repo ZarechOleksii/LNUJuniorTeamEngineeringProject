@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Models.Entities
 {
@@ -25,10 +20,13 @@ namespace Models.Entities
         public List<Favourites> Favourites { get; set; }
         public List<Comment> Comments { get; set; }
 
+        public List<MovieRate> Rating { get; set; }
+
         public Movie()
         {
             Favourites = new List<Favourites>();
             Comments = new List<Comment>();
+            Rating = new List<MovieRate>();
         }
     }
 }

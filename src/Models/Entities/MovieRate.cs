@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models.Entities
 {
-    [Table("Comments")]
-    public class Comment : BaseEntity
+    [Table("MovieRating")]
+    public class MovieRate : BaseEntity
     {
         public User User { get; set; }
         [ForeignKey("User")]
@@ -15,7 +15,6 @@ namespace Models.Entities
         public Guid MovieId { get; set; }
 
         [Required]
-        [MaxLength(500)]
-        public string Content { get; set; }
+        public byte Rate { get; set; }
     }
 }
