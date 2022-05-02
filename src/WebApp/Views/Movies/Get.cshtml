@@ -29,7 +29,7 @@
                     b.innerHTML = "Delete from Favorites";
                     b.setAttribute("class", "favorite-button-delete");
 
-                    
+
                 },
                 error: function (req, status, error) {
                     console.log("BAD: IS NOT favorite");
@@ -56,7 +56,8 @@
             {
                 <button value=@Model.Id class="favorite-button" onclick="add_to_favorite(this.value)">Add to Favorites</button>
             }
-            else{
+            else
+            {
                 <a href="@Url.Action("Login", "Account")"><button class="favorite-button">Add to Favorites</button></a>
             }
         </div>
@@ -72,17 +73,23 @@
         <button type="submit">Add rate</button>
     </form>
     @{
-        var averageRate = Convert.ToDouble(@Model.Rating.Sum(x => x.Rate)) / @Model.Rating.Count;
+        var averageRate = Math.Round(@Model.Rating.Average(x => x.Rate), 2);
     }
     <h3>Average rate: @(@Model.Rating.Count == 0 ? "There are no rates yet" : @averageRate.ToString("0.##"))</h3>
 
-
-    <form id="comment" action="/Movies/AddComment" method="post" target="empty">
-        <h2>Add comment: </h2>
-        <textarea name="Content" type="text" maxlength=500 required></textarea>
-        <input name="MovieId" type="hidden" value=@Model.Id />
-        <button type="submit">Post</button>
-    </form>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <form id="comment" action="/Movies/AddComment" method="post" target="empty">
+            <h2>Add comment: </h2>
+            <textarea name="Content" type="text" maxlength=500 required></textarea>
+            <input name="MovieId" type="hidden" value=@Model.Id />
+            <button type="submit">Post</button>
+        </form>
+    }
+    else
+    {
+        <a asp-controller="Account" asp-action="Login">Sign in to add comments</a>
+    }
 
     <h3>Comments:</h3>
     <div id="comments">

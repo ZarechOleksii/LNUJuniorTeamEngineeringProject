@@ -176,8 +176,12 @@ namespace WebApp.Controllers
         [AllowAnonymous]
         public IActionResult ResetPassword(string code = null)
         {
-            ViewBag.Token = code;
-            return code == null ? View("Error") : View();
+            var model = new ResetPasswordViewModel()
+            {
+                Token = code
+            };
+
+            return code == null ? View("Error") : View(model);
         }
 
         [HttpPost]
