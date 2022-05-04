@@ -76,6 +76,57 @@ namespace UnitTests.ServiceTests
             Assert.False(result);
         }
 
+        [Fact]
+        public async Task DeleteMovieAsync_WhenRepReturnsTrue_ReturnsTrue()
+        {
+            // arrange
+            _repMock
+                .Setup(q => q.DeleteAsync(It.IsAny<Movie>()))
+                .ReturnsAsync(true);
+
+            _movieService = new MovieService(_repMock.Object, _mockedLogger);
+
+            // act
+            var result = await _movieService.DeleteMovieAsync(SampleMovie());
+
+            // assert
+            Assert.True(result);
+        }
+
+        [Fact]
+        public async Task DeleteMovieAsync_WhenRepReturnsFalse_ReturnsFalse()
+        {
+            // arrange
+            _repMock
+                .Setup(q => q.DeleteAsync(It.IsAny<Movie>()))
+                .ReturnsAsync(false);
+
+            _movieService = new MovieService(_repMock.Object, _mockedLogger);
+
+            // act
+            var result = await _movieService.DeleteMovieAsync(SampleMovie());
+
+            // assert
+            Assert.False(result);
+        }
+
+        [Fact]
+        public async Task DeleteMovieAsync_WhenRepThrows_ReturnsFalse()
+        {
+            // arrange
+            _repMock
+                .Setup(q => q.DeleteAsync(It.IsAny<Movie>()))
+                .ThrowsAsync(new Exception());
+
+            _movieService = new MovieService(_repMock.Object, _mockedLogger);
+
+            // act
+            var result = await _movieService.DeleteMovieAsync(SampleMovie());
+
+            // assert
+            Assert.False(result);
+        }
+
         private static Movie SampleMovie()
         {
             return new Movie()

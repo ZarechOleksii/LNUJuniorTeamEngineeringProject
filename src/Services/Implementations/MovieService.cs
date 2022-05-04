@@ -42,5 +42,18 @@ namespace Services.Implementations
                 return false;
             }
         }
+
+        public async Task<bool> DeleteMovieAsync(Movie movie)
+        {
+            try
+            {
+                return await _repository.DeleteAsync(movie);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Caught exception in MovieService method DeleteMovieAsync");
+                return false;
+            }
+        }
     }
 }
