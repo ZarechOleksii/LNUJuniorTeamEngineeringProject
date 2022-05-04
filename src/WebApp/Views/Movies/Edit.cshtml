@@ -1,0 +1,31 @@
+﻿@model Models.Entities.Movie
+@{
+    ViewData["Title"] = "Edit movie";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Movie/AddMovie.css" />
+    <title>@ViewData["Title"]</title>
+</head>
+
+<form id="edit_movie" asp-controller="Movies" asp-action="Edit" method="post" class="add-movie-form">
+    <div asp-validation-summary="All" class="input-error"></div>
+    <div>
+        <h3 class="form-title">Edit movie</h3>
+    </div>
+    <div>
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-input" autocomplete="off"/>
+    </div>
+    <div>
+        <label asp-for="Description" class="form-label"></label>
+        <textarea asp-for="Description" class="form-textarea" autocomplete="off"></textarea>
+    </div>
+    <div>
+        <label asp-for="Url" class="form-label"></label>
+        <input asp-for="Url" class="form-input" autocomplete="off"/>
+    </div>
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="submit-button">Edit</button>
+</form>
+<script src="~/js/EditMovie.js"></script>
