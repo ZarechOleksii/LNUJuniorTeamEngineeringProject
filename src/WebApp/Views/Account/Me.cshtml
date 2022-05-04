@@ -1,0 +1,30 @@
+﻿@model Models.Entities.User
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Account/Profile.css" />
+    <title>@ViewData["Title"]</title>
+</head>
+
+<div class="content-holder">
+    <h1>Profile</h1>
+    <div class="user-info">
+        <p>Username: @Model.UserName</p>
+        <p>Email: @Model.Email</p>
+    </div>
+    <h3>
+        Favourites list:
+    </h3>
+    <div class="favourite-holder">
+        @foreach (var movie in Model.Favourites)
+        {
+            <a href="/Movies/Get/@movie.MovieId" style="text-decoration:none">
+                <div class="favourite-movie">
+                    @movie.Movie.Name
+                </div>
+            </a>
+        }
+    </div>
+</div>

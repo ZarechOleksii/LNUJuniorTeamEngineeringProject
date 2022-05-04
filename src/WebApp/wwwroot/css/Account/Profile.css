@@ -1,0 +1,33 @@
+﻿
+.content-holder {
+    width: 100%;
+}
+
+.user-info {
+    width: 100%;
+    font-size: 26px;
+    border: 2px solid #23B298;
+    padding: 20px;
+    margin-bottom: 20px;
+    word-break: break-all;
+}
+
+.favourite-holder {
+    width: 100%;
+}
+
+.favourite-movie {
+    width: 100%;
+    margin: 10px 0px 10px 0px;
+    font-size: 22px;
+    padding: 12px;
+    box-shadow: #23B298 0px 0px 0px 2px;
+    color: black;
+    transition: 0.5s ease-in;
+}
+
+    .favourite-movie:hover {
+        color: white;
+        background-color: #23B298;
+        box-shadow: darkslategrey 0px 0px 10px 6px;
+    }

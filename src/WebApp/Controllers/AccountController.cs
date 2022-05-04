@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models.Entities;
@@ -210,6 +211,21 @@ namespace WebApp.Controllers
             }
 
             return View("Error", "Unable to reset your password. Please try again or contact administrator.");
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> MeAsync()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdWithRelations(userId);
+
+            if (user is null)
+            {
+                return BadRequest();
+            }
+
+            return View(user);
         }
     }
 }
