@@ -1,8 +1,11 @@
 ﻿@{
     ViewData["Title"] = "Home";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/css/Home/HomePage.css" />
+    <title>@ViewData["Title"]</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="~/js/HomePage.js"></script>
+</head>
+<div id="movie-list"></div>
