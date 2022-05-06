@@ -33,6 +33,7 @@ try
     builder.Services.AddScoped<IRatingService, RatingService>();
     builder.Services.AddScoped<IFavouriteService, FavouriteService>();
     builder.Services.AddScoped<ICommentService, CommentService>();
+    builder.Services.AddScoped<IHomeService, HomeService>();
     builder.Services.AddScoped<IRepository<BaseEntity>, BaseRepository<BaseEntity>>();
     builder.Services.AddScoped<IMovieRepository, MovieRepository>();
     builder.Services.AddScoped<IFavouriteRepository, FavouriteRepository>();
