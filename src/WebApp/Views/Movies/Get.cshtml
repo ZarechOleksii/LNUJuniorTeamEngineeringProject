@@ -72,10 +72,7 @@
         <input name="MovieId" type="hidden" value=@Model.Id />
         <button type="submit">Add rate</button>
     </form>
-    @{
-        var averageRate = Math.Round(@Model.Rating.Average(x => x.Rate), 2);
-    }
-    <h3>Average rate: @(@Model.Rating.Count == 0 ? "There are no rates yet" : @averageRate.ToString("0.##"))</h3>
+    <h3>Average rate: @(@Model.Rating.Count == 0 ? "There are no rates yet" : Math.Round(@Model.Rating.Average(x => x.Rate), 2))</h3>
 
     @if (User.Identity.IsAuthenticated)
     {

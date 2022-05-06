@@ -28,12 +28,12 @@
                     <ul class="nav navbar-nav navbar-right">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item" style="margin-left: auto">
-                                <a class="nav-link text-dark">@User.Identity.Name</a>
+                            <li class="nav-item">
+                                <a href="/Account/Me" class="nav-link text-dark user-link">@User.Identity.Name</a>
                             </li>
-                            <li class="nav-item" style="margin-left: auto">
+                            <li class="nav-item">
                                 <form method="post" asp-controller="Account" asp-action="Logout">
-                                    <input type="submit" style="padding: 7px 20px 7px 20px;background-color: white; color: #23B298;border: 2px solid #23B298; transition: 0.3s ease; border-radius: 20px;" class="log-out-button-nav" value="Logout" />
+                                    <input type="submit" class="log-out-button-nav" value="Logout" />
                                 </form>
                             </li>
                         }

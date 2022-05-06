@@ -8,7 +8,7 @@ using Moq;
 using Services.Implementations;
 using Xunit;
 
-namespace UnitTests.DataTests
+namespace UnitTests.ServiceTests
 {
     public class FavouriteServiceTest
     {

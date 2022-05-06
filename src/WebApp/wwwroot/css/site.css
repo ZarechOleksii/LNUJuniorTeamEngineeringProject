@@ -31,7 +31,7 @@ body {
     border: 2px solid #23B298;
     transition: 0.3s ease;
     border-radius: 20px;
-    width: 100px;
+    min-width: 100px;
     text-align: center;
     margin: 3px 5px 3px 0px;
 }
@@ -47,7 +47,7 @@ body {
 .register-button-nav {
     padding: 10px;
     border-radius: 20px;
-    width: 100px;
+    min-width: 100px;
     text-align: center;
     background: linear-gradient(45deg, #23B2AC, #5D78FF);
     margin: 3px 5px 3px 0px;
@@ -64,3 +64,34 @@ body {
     margin: -3px;
     color: white;
 }
+
+.log-out-button-nav {
+    min-width: 100px;
+    padding: 7px 20px 7px 20px;
+    background-color: white;
+    color: #23B298;
+    border: 2px solid #23B298;
+    transition: 0.3s ease;
+    border-radius: 20px;
+    margin: 3px 5px 3px 0px;
+}
+
+    .log-out-button-nav:hover {
+        color: white;
+        background-color: #23B298;
+    }
+
+.user-link {
+    border-radius: 20px;
+    margin-right: 10px;
+    padding: 7px 20px 7px 20px;
+    margin: 3px 5px 3px 0px;
+    text-align: center;
+    border: 2px solid #23B298;
+    transition: 0.3s ease;
+}
+    .user-link:hover {
+        color: white;
+        background-color: #23B298;
+        border: 2px solid darkslategray;
+    }

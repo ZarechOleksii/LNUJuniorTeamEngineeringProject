@@ -53,6 +53,67 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> EditAsync(Guid id)
+        {
+            var movie = await _movieService.GetMovieAsync(id);
+
+            if (movie is null)
+            {
+                return View("Error", "Sorry, this movie was not found.");
+            }
+
+            return View(movie);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> EditAsync(Movie model)
+        {
+            if (ModelState.IsValid)
+            {
+                var movie = await _movieService.GetMovieAsync(model.Id);
+
+                if (movie is null)
+                {
+                    return View("Error", "Sorry, this movie was not found.");
+                }
+
+                var result = await _movieService.EditMovieAsync(movie, model);
+
+                if (result)
+                {
+                    return RedirectToAction("Get", new { id = movie.Id });
+                }
+
+                return View("Error", "Sorry, unexpected error occurred.");
+            }
+
+            return View(model);
+        }
+
+        [HttpDelete]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteAsync(Guid id)
+        {
+            var movie = await _movieService.GetMovieAsync(id);
+
+            if (movie is null)
+            {
+                return View("Error", "Sorry, this movie was not found.");
+            }
+
+            var result = await _movieService.DeleteMovieAsync(movie);
+
+            if (result)
+            {
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
+
+            return View("Error", "Sorry, unexpected error occurred.");
+        }
+
+        [HttpGet]
         public async Task<ActionResult<Movie>> GetAsync(Guid id)
         {
             var movie = await _movieService.GetMovieAsync(id);

@@ -24,6 +24,9 @@ namespace Data
             modelBuilder.Entity<Favourites>()
                 .HasIndex(e => new { e.MovieId, e.UserId })
                 .IsUnique();
+            modelBuilder.Entity<MovieRate>()
+                .HasIndex(e => new { e.MovieId, e.UserId })
+                .IsUnique();
             base.OnModelCreating(modelBuilder);
         }
     }
