@@ -239,6 +239,27 @@ namespace WebApp.Controllers
             return BadRequest();
         }
 
+        [HttpDelete]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteComment(Guid id)
+        {
+            var comment = await _commentService.GetCommentByIdAsync(id);
+
+            if (comment is null)
+            {
+                return View("Error", "Failed to find comment to delete.");
+            }
+
+            var result = await _commentService.DeleteCommentAsync(comment);
+
+            if (result)
+            {
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> AddRate(MovieRate movieRate)

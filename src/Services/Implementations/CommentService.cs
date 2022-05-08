@@ -28,5 +28,31 @@ namespace Services.Implementations
                 return false;
             }
         }
+
+        public async Task<bool> DeleteCommentAsync(Comment comment)
+        {
+            try
+            {
+                return await _repository.DeleteAsync(comment);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Caught exception in CommentService method DeleteCommentAsync");
+                return false;
+            }
+        }
+
+        public async Task<Comment?> GetCommentByIdAsync(Guid id)
+        {
+            try
+            {
+                return await _repository.GetAsync(id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Caught exception in CommentService method GetCommentByIdAsync");
+                return null;
+            }
+        }
     }
 }

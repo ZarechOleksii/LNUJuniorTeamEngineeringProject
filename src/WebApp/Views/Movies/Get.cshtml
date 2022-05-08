@@ -93,9 +93,17 @@
         @foreach (var comment in Model.Comments)
         {
             <div class="comment-container">
-                <p>@comment.User.UserName</p>
-                <p>@comment.Content</p>
-            </div>
+                    <p>@comment.User.UserName</p>
+                    <p>@comment.Content</p>
+                </div>
+            <button 
+                value=@comment.Id
+                id="delete-comment-button-@comment.Id"
+                class="delete-comment-button"
+                type="submit"
+                onclick="DeleteComment(this.value)">
+                Delete
+            </button>
         }
     </div>
 </div>

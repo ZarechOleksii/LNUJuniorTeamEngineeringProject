@@ -40,8 +40,10 @@ function loadMore() {
                         var movie = document.createElement("div");
                         var movieName = document.createElement("div");
                         var movieDescription = document.createElement("div");
-
                         movie.setAttribute("class", "movie");
+                        movie.addEventListener("click", function () {
+                            document.location.href = `https://localhost:44351/Movies/Get?id=${data[i].id}`;
+                        });
                         movieName.setAttribute("class", "movie-name");
                         movieName.innerHTML = data[i].name;
                         movieDescription.setAttribute("class", "movie-description");

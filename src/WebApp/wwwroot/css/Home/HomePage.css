@@ -10,6 +10,7 @@
     transition: 1s ease;
     color: white;
     text-align: center;
+    cursor: pointer;
 }
 
     .movie:hover {
