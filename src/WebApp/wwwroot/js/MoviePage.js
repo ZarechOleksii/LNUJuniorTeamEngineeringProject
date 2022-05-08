@@ -53,4 +53,21 @@ function formSubmit(event) {
     event.preventDefault();
 }
 
+function DeleteComment(comment_id) {
+    $.ajax({
+        type: "DELETE",
+        url: "/Movies/DeleteComment",
+        data: { id: comment_id },
+        async: true,
+        dataType: "text",
+        success: function (msg) {
+            console.log("OK: deleted comment");
+            location.reload(true);
+        },
+        error: function (req, status, error) {
+            console.log("BAD: NOT deleted comment");
+        }
+    });
+}
+
 document.getElementById("comment").addEventListener("submit", formSubmit);
