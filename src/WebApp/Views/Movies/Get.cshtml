@@ -46,7 +46,7 @@
             scrolling="no"
             allowfullscreen>
     </iframe>
-    
+
     <div class="rating-container">
         <form id="rating" action="/Movies/AddRate" method="post" target="empty" class="rating-form">
             <input name="Rate" type="range" min="1" max="10" class="rating-input" id="myRange">
@@ -74,7 +74,7 @@
                 }
                 else
                 {
-                    <a href="@Url.Action("Login", "Account")"><button class="favorite-button">Add to Favorites</button></a>
+                    <a href="@Url.Action("Login", "Account")"><div class="favorite-button">Add to Favorites</div></a>
                 }
             </div>
         </div>
@@ -104,8 +104,7 @@
             {
                 <div class="comment">
                     <p><b>@comment.User.UserName:</b> @comment.Content</p>
-                    <button 
-                        value=@comment.Id
+                    <button value=@comment.Id
                         id="delete-comment-button-@comment.Id"
                         class="delete-comment-button"
                         type="submit"
@@ -114,6 +113,7 @@
                     </button>
                 </div>
             }
+        </div>
     </div>
 </div>
 <script src="/js/MoviePage.js"></script>
