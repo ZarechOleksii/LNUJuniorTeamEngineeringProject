@@ -1,18 +1,21 @@
 ﻿.rating-container {
     display: flex;
     justify-content: space-between;
+    grid-template-columns: auto 80px;
+    width: 100%;
 }
 
 .rating-form {
     display: flex;
     align-items: center;
+    width: 100%;
 }
 
 .rating-input {
     -webkit-appearance: none;
     height: 7px;
     border-radius: 10px;
-    width: 500px;
+    width: 70%;
     background: #4895ef;
 }
 

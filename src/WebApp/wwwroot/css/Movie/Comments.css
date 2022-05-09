@@ -27,6 +27,7 @@
         width: 75%;
         border: 2px dashed lightgray;
         border-radius: 5px;
+        margin: 0 15px;
     }
 
     .add-comment-container button {
