@@ -104,9 +104,16 @@
             {
                 <div class="comment">
                     <p><b>@comment.User.UserName:</b> @comment.Content</p>
+                    <button 
+                        value=@comment.Id
+                        id="delete-comment-button-@comment.Id"
+                        class="delete-comment-button"
+                        type="submit"
+                        onclick="DeleteComment(this.value)">
+                        Delete
+                    </button>
                 </div>
             }
-        </div>
     </div>
 </div>
 <script src="/js/MoviePage.js"></script>

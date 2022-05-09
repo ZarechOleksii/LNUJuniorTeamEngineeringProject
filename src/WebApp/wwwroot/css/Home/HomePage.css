@@ -1,0 +1,41 @@
+.movie {
+    width: 60%;
+    height: 400px;
+    border: 1px lightgrey red;
+    border-radius: 35px;
+    margin: auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    box-shadow: 0px 0px 100px grey;
+    transition: 1s ease;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+}
+
+    .movie:hover {
+        box-shadow: 0px 0px 200px #23B298;
+        transform: scale(1.05);
+    }
+
+.movie-name {
+    width: 100%;
+    height: 20%;
+    margin: auto;
+    border-bottom: 0px solid lightgrey;
+    text-align: center;
+    padding-top: 4%;
+    border-radius: 35px 35px 0px 0px;
+    background: linear-gradient(45deg, #23B2AC, #5D78FF);
+}
+
+.movie-description {
+    border: 0px solid red;
+    width: 60%;
+    margin-left: auto;
+    height: 80%;
+    border-radius: 0px 0px 35px 0px;
+    color: black;
+    text-align: justify;
+    padding: 2%;
+}
