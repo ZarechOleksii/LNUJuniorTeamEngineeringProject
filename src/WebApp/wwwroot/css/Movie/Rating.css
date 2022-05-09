@@ -1,0 +1,46 @@
+﻿.rating-container {
+    display: flex;
+    justify-content: space-between;
+    grid-template-columns: auto 80px;
+    width: 100%;
+}
+
+.rating-form {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.rating-input {
+    -webkit-appearance: none;
+    height: 7px;
+    border-radius: 10px;
+    width: 70%;
+    background: #4895ef;
+}
+
+    .rating-input::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 23px;
+        height: 24px;
+        border: 0;
+        background: url('../../img/Layout/star.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+        cursor: pointer;
+    }
+
+.rating-value {
+    font-weight: bolder;
+    padding: 15px;
+    font-size: 26px;
+}
+
+.rating-form button {
+    padding: 10px 20px;
+    box-shadow: 0px 0px 15px #4895ef;
+    color: white;
+    background-color: #4895ef;
+    border-radius: 20px;
+    border: none;
+}
