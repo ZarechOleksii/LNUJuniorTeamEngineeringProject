@@ -12,7 +12,7 @@ namespace Services.Implementations
 {
     public static class UserManagerExtensions
     {
-        public static async Task<User?> FindByIdWithRelations(
+        public static async Task<User?> FindByIdWithRelationsAsync(
             this UserManager<User> input,
             string userId)
         {

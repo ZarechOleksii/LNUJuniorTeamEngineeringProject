@@ -1,4 +1,6 @@
 using Data;
+using Data.CommentRepository;
+using Data.FavouriteRepository;
 using Data.MovieRepository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -37,7 +39,7 @@ try
     builder.Services.AddScoped<IRepository<BaseEntity>, BaseRepository<BaseEntity>>();
     builder.Services.AddScoped<IMovieRepository, MovieRepository>();
     builder.Services.AddScoped<IFavouriteRepository, FavouriteRepository>();
-    builder.Services.AddScoped<IRepository<Comment>, BaseRepository<Comment>>();
+    builder.Services.AddScoped<ICommentRepository, CommentRepository>();
     builder.Services.AddScoped<IRepository<MovieRate>, BaseRepository<MovieRate>>();
 
     // Database context

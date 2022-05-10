@@ -1,4 +1,5 @@
 ﻿using Data;
+using Data.FavouriteRepository;
 using Microsoft.Extensions.Logging;
 using Models.Entities;
 using Services.Interfaces;

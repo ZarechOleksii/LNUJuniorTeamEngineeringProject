@@ -15,17 +15,20 @@ namespace WebApp.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IMailService _mailService;
+        private readonly ICommentService _commentService;
 
         public AccountController(
             ILogger<AccountController> logger,
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            IMailService mailService)
+            IMailService mailService,
+            ICommentService commentService)
         {
             _logger = logger;
             _userManager = userManager;
             _signInManager = signInManager;
             _mailService = mailService;
+            _commentService = commentService;
         }
 
         [HttpGet]
@@ -218,14 +221,93 @@ namespace WebApp.Controllers
         public async Task<IActionResult> MeAsync()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var user = await _userManager.FindByIdWithRelations(userId);
+            var user = await _userManager.FindByIdWithRelationsAsync(userId);
 
             if (user is null)
             {
                 return BadRequest();
             }
 
-            return View(user);
+            bool admin = await _userManager.IsInRoleAsync(user, "Admin");
+            bool banned = await _userManager.IsInRoleAsync(user, "Banned");
+
+            var model = new ProfileViewModel
+            {
+                Email = user.Email,
+                UserName = user.UserName,
+                IsAdmin = admin,
+                Favourites = user.Favourites,
+                Banned = banned
+            };
+
+            return View(model);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UserAsync(Guid id)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+
+            if (user is null)
+            {
+                return View("Error", "User with this id does not exist");
+            }
+
+            bool admin = await _userManager.IsInRoleAsync(user, "Admin");
+            bool banned = await _userManager.IsInRoleAsync(user, "Banned");
+
+            var model = new ProfileViewModel
+            {
+                Id = user.Id,
+                Email = user.Email,
+                UserName = user.UserName,
+                IsAdmin = admin,
+                Favourites = user.Favourites,
+                Banned = banned
+            };
+
+            return View("Me", model);
+        }
+
+        [HttpPut]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> BanAsync(Guid id)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+
+            if (user is null)
+            {
+                return View("Error", "User with this id does not exist");
+            }
+
+            bool admin = await _userManager.IsInRoleAsync(user, "Admin");
+
+            if (admin)
+            {
+                return View("Error", "You cannot ban administrator");
+            }
+
+            bool banned = await _userManager.IsInRoleAsync(user, "Banned");
+
+            IdentityResult result;
+
+            if (banned)
+            {
+                result = await _userManager.RemoveFromRoleAsync(user, "Banned");
+            }
+            else
+            {
+                result = await _userManager.AddToRoleAsync(user, "Banned");
+            }
+
+            if (result.Succeeded)
+            {
+                await _commentService.DeleteUserCommentsAsync(user);
+                return Ok();
+            }
+
+            return BadRequest();
         }
     }
 }

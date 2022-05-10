@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Data;
+using Data.CommentRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Models.Entities;
@@ -13,13 +14,13 @@ namespace UnitTests.ServiceTests
     public class CommentServiceTest
     {
         private readonly ILogger<CommentService> _mockedLogger;
-        private readonly Mock<IRepository<Comment>> _repMock;
+        private readonly Mock<ICommentRepository> _repMock;
         private CommentService _commentService;
 
         public CommentServiceTest()
         {
             _mockedLogger = new Mock<ILogger<CommentService>>().Object;
-            _repMock = new Mock<IRepository<Comment>>();
+            _repMock = new Mock<ICommentRepository>();
         }
 
         [Fact]

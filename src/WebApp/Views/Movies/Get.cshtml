@@ -83,7 +83,7 @@
 
     <p class="movie-description">@Model.Description</p>
 
-    @if (User.Identity.IsAuthenticated)
+    @if (User.Identity.IsAuthenticated && !User.IsInRole("Banned"))
     {
         <form id="comment" action="/Movies/AddComment" method="post" target="empty" class="add-comment-container">
             <h4>Add comment: </h4>
@@ -91,6 +91,12 @@
             <input name="MovieId" type="hidden" value=@Model.Id />
             <button type="submit">Post</button>
         </form>
+    }
+    else if(User.IsInRole("Banned"))
+    {
+        <p class="banned-text">
+            This profile is banned - all your comments are deleted and you cannot publish new comments.
+        </p>
     }
     else
     {
@@ -103,7 +109,19 @@
             @foreach (var comment in Model.Comments)
             {
                 <div class="comment">
-                    <p><b>@comment.User.UserName:</b> @comment.Content</p>
+                    <p>
+                        @if(User.IsInRole("Admin"))
+                        {
+                            <a href="/Account/User/@comment.UserId">
+                                <b>@comment.User.UserName:</b>
+                            </a>
+                        }
+                        else
+                        {
+                            <b>@comment.User.UserName:</b>
+                        }
+                        @comment.Content
+                    </p>
                     <button value=@comment.Id
                         id="delete-comment-button-@comment.Id"
                         class="delete-comment-button"

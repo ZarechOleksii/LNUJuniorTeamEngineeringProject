@@ -227,6 +227,11 @@ namespace WebApp.Controllers
                 return View("Error", "Failed to add comment.");
             }
 
+            if (await _userManager.IsInRoleAsync(user, "Banned"))
+            {
+                return View("Error", "You are banned and not allowed to publish comments.");
+            }
+
             comment.UserId = userId;
 
             var result = await _commentService.AddCommentAsync(comment);

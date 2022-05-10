@@ -1,4 +1,4 @@
-﻿@model Models.Entities.User
+﻿@model ProfileViewModel
 @{
     ViewData["Title"] = "Profile";
 }
@@ -6,6 +6,7 @@
 <head>
     <link rel="stylesheet" href="~/css/Account/Profile.css" />
     <title>@ViewData["Title"]</title>
+    <script src="~/js/ProfilePage.js"></script>
 </head>
 
 <div class="content-holder">
@@ -14,17 +15,47 @@
         <p>Username: @Model.UserName</p>
         <p>Email: @Model.Email</p>
     </div>
-    <h3>
-        Favourites list:
-    </h3>
-    <div class="favourite-holder">
-        @foreach (var movie in Model.Favourites)
+    @if (Model.Banned)
+    {
+        <p class="banned-text">
+            This profile is banned - all your comments are deleted and you cannot publish new comments.
+        </p>
+    }
+    @if (Model.Favourites.Any())
+    {
+        <h3>
+            Favourites list:
+        </h3>
+        <div class="favourite-holder">
+            @foreach (var movie in Model.Favourites)
+            {
+                <a href="/Movies/Get/@movie.MovieId" style="text-decoration:none">
+                    <div class="favourite-movie">
+                        @movie.Movie.Name
+                    </div>
+                </a>
+            }
+        </div>
+    }
+    @if (User.IsInRole("Admin") && !Model.IsAdmin)
+    {
+        if(!Model.Banned)
         {
-            <a href="/Movies/Get/@movie.MovieId" style="text-decoration:none">
-                <div class="favourite-movie">
-                    @movie.Movie.Name
-                </div>
-            </a>
+            <button 
+                value=@Model.Id 
+                onclick="ban_user(this.value)"
+                class="user-button ban"> 
+                    Ban user
+            </button>
         }
-    </div>
+        else
+        {
+            <button 
+                value=@Model.Id 
+                onclick="ban_user(this.value)"
+                class="user-button unban"> 
+                    Unban user
+            </button>
+        }
+    }
 </div>
