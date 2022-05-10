@@ -77,6 +77,57 @@ namespace UnitTests.ServiceTests
             Assert.True(result);
         }
 
+        [Fact]
+        public async Task DeleteUserCommentsAsync_WhenRepTrue_ReturnsTrue()
+        {
+            // arrange
+            _repMock
+                .Setup(mock => mock.DeleteAllCommentsByUserAsync(It.IsAny<User>()))
+                .ReturnsAsync(true);
+
+            _commentService = new (_repMock.Object, _mockedLogger);
+
+            // act
+            var result = await _commentService.DeleteUserCommentsAsync(new User());
+
+            // assert
+            Assert.True(result);
+        }
+
+        [Fact]
+        public async Task DeleteUserCommentsAsync_WhenRepFalse_ReturnsFalse()
+        {
+            // arrange
+            _repMock
+                .Setup(mock => mock.DeleteAllCommentsByUserAsync(It.IsAny<User>()))
+                .ReturnsAsync(false);
+
+            _commentService = new (_repMock.Object, _mockedLogger);
+
+            // act
+            var result = await _commentService.DeleteUserCommentsAsync(new User());
+
+            // assert
+            Assert.False(result);
+        }
+
+        [Fact]
+        public async Task DeleteUserCommentsAsync_WhenRepThrows_ReturnsFalse()
+        {
+            // arrange
+            _repMock
+                .Setup(mock => mock.DeleteAllCommentsByUserAsync(It.IsAny<User>()))
+                .Throws(new Exception());
+
+            _commentService = new (_repMock.Object, _mockedLogger);
+
+            // act
+            var result = await _commentService.DeleteUserCommentsAsync(new User());
+
+            // assert
+            Assert.False(result);
+        }
+
         private static Comment SampleComment()
         {
             Comment comment = new ()

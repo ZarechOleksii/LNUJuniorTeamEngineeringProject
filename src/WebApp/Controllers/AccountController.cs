@@ -152,13 +152,13 @@ namespace WebApp.Controllers
                     var user = await _userManager.FindByEmailAsync(model.Email);
                     if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
                     {
-                        _logger.LogInformation($"Unable to find user with email {model.Email}");
+                        _logger.LogInformation("Unable to find user with email {Email}", model.Email);
                         return View("ForgotPasswordConfirmation");
                     }
 
                     var code = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-                    var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                    var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code }, protocol: HttpContext.Request.Scheme);
                     await _mailService.SendMailAsync(
                         model.Email,
                         "OnlyMovies password reset",
@@ -178,14 +178,19 @@ namespace WebApp.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult ResetPassword(string code = null)
+        public IActionResult ResetPassword(string? code = null)
         {
+            if (code is null)
+            {
+                return View("Error");
+            }
+
             var model = new ResetPasswordViewModel()
             {
                 Token = code
             };
 
-            return code == null ? View("Error") : View(model);
+            return View(model);
         }
 
         [HttpPost]
@@ -195,14 +200,14 @@ namespace WebApp.Controllers
         {
             if (model.Password != model.ConfirmPassword)
             {
-                _logger.LogInformation($"User {model.Email} passwords missmatch");
+                _logger.LogInformation("User {Email} passwords missmatch", model.Email);
                 return View("Error", "Unable to reset your password. Passwords missmatch.");
             }
 
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
             {
-                _logger.LogInformation($"Unable to find user with email {model.Email}");
+                _logger.LogInformation("Unable to find user with email {Email}", model.Email);
                 return View("Error", $"Unable to reset password for user with email {model.Email}. User not found.");
             }
 

@@ -19,7 +19,7 @@ namespace Services.Implementations
 
         public async Task<bool> AddToFavouriteAsync(string userId, Guid movieId)
         {
-            Favourites favourites = new()
+            Favourites favourites = new ()
             {
                 UserId = userId,
                 MovieId = movieId
