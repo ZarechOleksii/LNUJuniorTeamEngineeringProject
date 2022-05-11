@@ -92,27 +92,6 @@ namespace WebApp.Controllers
             return View(model);
         }
 
-        [HttpDelete]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteAsync(Guid id)
-        {
-            var movie = await _movieService.GetMovieAsync(id);
-
-            if (movie is null)
-            {
-                return View("Error", "Sorry, this movie was not found.");
-            }
-
-            var result = await _movieService.DeleteMovieAsync(movie);
-
-            if (result)
-            {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
-            }
-
-            return View("Error", "Sorry, unexpected error occurred.");
-        }
-
         [HttpGet]
         public async Task<ActionResult<Movie>> GetAsync(Guid id)
         {
@@ -301,14 +280,6 @@ namespace WebApp.Controllers
             var movie = await _movieService.GetMovieAsync(movieId);
 
             if (movie is null)
-            {
-                return View("Error", "Failed to remove movie.");
-            }
-
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var user = await _userManager.FindByIdAsync(userId);
-
-            if (user is null)
             {
                 return View("Error", "Failed to remove movie.");
             }
