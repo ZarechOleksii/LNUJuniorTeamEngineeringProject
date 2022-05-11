@@ -48,12 +48,17 @@
     </iframe>
 
     <div class="rating-container">
-        <form id="rating" action="/Movies/AddRate" method="post" target="empty" class="rating-form">
+        <div class="rating-form">
             <input name="Rate" type="range" min="1" max="10" class="rating-input" id="myRange">
             <span id="demo" class="rating-value"></span>
-
-            <input name="MovieId" type="hidden" value=@Model.Id />
-            <button type="submit">Add rate</button>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <button value=@Model.Id onclick="addRate(this.value)">Add rate</button>
+            }
+            else
+            {
+                <a href="@Url.Action("Login", "Account")"><button>Add rate</button></a>
+            }
 
             <script>
                 var slider = document.getElementById("myRange");
@@ -64,7 +69,9 @@
                   output.innerHTML = this.value;
                 }
             </script>
-        </form>
+        </div>
+
+
 
         <div class="add-to-favourite-area">
             <div class="add-to-favourite-button">
@@ -74,10 +81,18 @@
                 }
                 else
                 {
-                    <a href="@Url.Action("Login", "Account")"><div class="favorite-button">Add to Favorites</div></a>
+                    <a href="@Url.Action("Login", "Account")"><button class="favorite-button">Add to Favorites</button></a>
                 }
             </div>
         </div>
+        @if (User.IsInRole("Admin"))
+        {
+        <div class="delete-movie-admin">
+            <div class="delete-movie-admin-button">
+                <button value=@Model.Id class="delete-admin-button" onclick="deleteMovieAdmin(this.value)">Delete Movie</button>
+            </div>
+        </div>
+        }
     </div>
     <h5>Average rate: @(@Model.Rating.Count == 0 ? "There are no rates yet" : Math.Round(@Model.Rating.Average(x => x.Rate), 2))</h5>
 

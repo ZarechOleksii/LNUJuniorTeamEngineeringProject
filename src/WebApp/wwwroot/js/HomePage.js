@@ -4,12 +4,15 @@ var isHasMovieYet = true;
 var lastKnownScrollPosition = 0;
 var ticking = false;
 var startLoadingCount = 3;
+var intervalBetweenLoading = 1000;
+var isloading = false;
 
-setIntervalX(loadMore, 1000, startLoadingCount);
+setIntervalX(loadMore, intervalBetweenLoading, startLoadingCount);
 
 $(window).scroll(function () {
-    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+    if (Math.ceil($(window).scrollTop()) == $(document).height() - $(window).height()) {
         loadMore();
+        isloading = true;
     }
 });
 
@@ -26,7 +29,7 @@ function setIntervalX(callback, delay, repetitions) {
 }
 
 function loadMore() {
-    if (isHasMovieYet) {
+    if (isHasMovieYet && !isloading) {
         $.ajax({
             type: "GET",
             url: "/Home/LoadMoreMovies",
@@ -42,7 +45,7 @@ function loadMore() {
                         var movieDescription = document.createElement("div");
                         movie.setAttribute("class", "movie");
                         movie.addEventListener("click", function () {
-                            document.location.href = `https://localhost:44351/Movies/Get?id=${data[i].id}`;
+                            document.location.href = `/Movies/Get?id=${data[i].id}`;
                         });
                         movieName.setAttribute("class", "movie-name");
                         movieName.innerHTML = data[i].name;
@@ -60,6 +63,7 @@ function loadMore() {
                         isHasMovieYet = false;
                     }
                 }
+                isloading = false;
             },
             error: function (data) {
                 console.log(data);

@@ -17,6 +17,7 @@
         }
     });
 }
+
 function delete_from_favorite(movie_id) {
     $.ajax({
         type: "DELETE",
@@ -66,6 +67,40 @@ function DeleteComment(comment_id) {
         },
         error: function (req, status, error) {
             console.log("BAD: NOT deleted comment");
+        }
+    });
+}
+
+function deleteMovieAdmin(movieId) {
+    $.ajax({
+        type: "DELETE",
+        url: "/Movies/DeleteMovieAdmin",
+        data: { movieId: movieId },
+        async: true,
+        dataType: "text",
+        success: function (msg) {
+            console.log("OK: deleted from favorite");
+            window.location.href = "/";
+        },
+        error: function (req, status, error) {
+            console.log("BAD: NOT deleted from favorite");
+        }
+    });
+}
+
+function addRate(movieId) {
+    var slider = document.getElementById("myRange");
+    $.ajax({
+        type: "POST",
+        url: "/Movies/AddRate",
+        data: { movieId: movieId, rate: slider.value },
+        async: true,
+        dataType: "text",
+        success: function (msg) {
+            console.log("OK: rate is added");
+        },
+        error: function (req, status, error) {
+            console.log("BAD: rate is NOT added");
         }
     });
 }
