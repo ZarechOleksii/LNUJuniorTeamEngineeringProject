@@ -19,6 +19,11 @@ namespace Models
                 await roleManager.CreateAsync(new IdentityRole("User"));
             }
 
+            if (await roleManager.FindByNameAsync("Banned") == null)
+            {
+                await roleManager.CreateAsync(new IdentityRole("Banned"));
+            }
+
             if (await userManager.FindByNameAsync(adminEmail) == null)
             {
                 User admin = new () { Email = adminEmail, UserName = adminEmail };

@@ -10,6 +10,7 @@
     padding: 20px;
     margin-bottom: 20px;
     word-break: break-all;
+    border-radius: 20px;
 }
 
 .favourite-holder {
@@ -24,6 +25,7 @@
     box-shadow: #23B298 0px 0px 0px 2px;
     color: black;
     transition: 0.5s ease-in;
+    border-radius: 30px;
 }
 
     .favourite-movie:hover {
@@ -31,3 +33,36 @@
         background-color: #23B298;
         box-shadow: darkslategrey 0px 0px 10px 6px;
     }
+
+.user-button {
+    color: white;
+    width: 100%;
+    font-size: 24px;
+    padding: 10px;
+    border-radius: 30px;
+    border: none;
+    transition: 0.3s ease-in;
+}
+
+    .user-button.ban {
+        background-color: darkred;
+    }
+
+        .user-button.ban:hover {
+            background-color: crimson;
+        }
+
+    .user-button.unban {
+        background-color: darkgreen;
+    }
+
+        .user-button.unban:hover {
+            background-color: darkcyan;
+        }
+
+.banned-text{
+    color: red;
+    font-size: 20px;
+    width: 100%;
+    margin: 10px;
+}

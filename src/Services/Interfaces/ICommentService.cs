@@ -9,5 +9,6 @@ namespace Services.Interfaces
         public Task<bool> DeleteCommentAsync(Comment comment);
 
         public Task<Comment?> GetCommentByIdAsync(Guid id);
+        public Task<bool> DeleteUserCommentsAsync(User user);
     }
 }

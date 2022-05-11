@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Models.Entities;
 
-namespace Data.MovieRepository
+namespace Data.FavouriteRepository
 {
     public class FavouriteRepository : BaseRepository<Favourites>, IFavouriteRepository
     {

@@ -1,6 +1,6 @@
 ﻿using Models.Entities;
 
-namespace Data
+namespace Data.FavouriteRepository
 {
     public interface IFavouriteRepository : IRepository<Favourites>
     {
