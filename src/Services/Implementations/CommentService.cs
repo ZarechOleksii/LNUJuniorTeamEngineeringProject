@@ -1,4 +1,5 @@
 ﻿using Data;
+using Data.CommentRepository;
 using Microsoft.Extensions.Logging;
 using Models.Entities;
 using Services.Interfaces;
@@ -7,10 +8,10 @@ namespace Services.Implementations
 {
     public class CommentService : ICommentService
     {
-        private readonly IRepository<Comment> _repository;
+        private readonly ICommentRepository _repository;
         private readonly ILogger<CommentService> _logger;
 
-        public CommentService(IRepository<Comment> rep, ILogger<CommentService> logger)
+        public CommentService(ICommentRepository rep, ILogger<CommentService> logger)
         {
             _repository = rep;
             _logger = logger;
@@ -52,6 +53,19 @@ namespace Services.Implementations
             {
                 _logger.LogError(ex, "Caught exception in CommentService method GetCommentByIdAsync");
                 return null;
+            }
+        }
+
+        public async Task<bool> DeleteUserCommentsAsync(User user)
+        {
+            try
+            {
+                return await _repository.DeleteAllCommentsByUserAsync(user);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Caught exception in CommentService method GetCommentByIdAsync");
+                return false;
             }
         }
     }
