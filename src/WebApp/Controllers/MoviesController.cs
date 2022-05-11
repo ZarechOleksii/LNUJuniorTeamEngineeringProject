@@ -262,19 +262,53 @@ namespace WebApp.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> AddRate(MovieRate movieRate)
+        public async Task<IActionResult> AddRate(Guid movieId, int rate)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = await _userManager.FindByIdAsync(userId);
 
             if (user is null)
             {
-                return View("~/Views/Shared/Error404.cshtml");
+                return View("Error", "Failed to add rate for movie.");
             }
 
-            movieRate.UserId = userId;
+            var movieRate = new MovieRate
+            {
+                UserId = userId,
+                Rate = Convert.ToByte(rate),
+                MovieId = movieId
+            };
 
             var result = await _ratingService.AddRateAsync(movieRate);
+
+            if (result)
+            {
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
+        [HttpDelete]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteMovieAdmin(Guid movieId)
+        {
+            var movie = await _movieService.GetMovieAsync(movieId);
+
+            if (movie is null)
+            {
+                return View("Error", "Failed to remove movie.");
+            }
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user is null)
+            {
+                return View("Error", "Failed to remove movie.");
+            }
+
+            var result = await _movieService.DeleteMovieAsync(movie);
 
             if (result)
             {

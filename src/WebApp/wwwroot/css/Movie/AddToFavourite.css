@@ -10,6 +10,8 @@
     background-color: #23B298;
     margin: 30px;
     transition: 0.5s ease;
+    text-align: center;
+    text-decoration: none;
 }
 
     .favorite-button:hover {
@@ -27,7 +29,7 @@
         transition: 0.5s ease;
     }
 
-.favorite-button-delete {
+.favorite-button-delete, .delete-admin-button {
     color: white;
     font-size: 15px;
     font-family: Tahoma;
@@ -41,7 +43,7 @@
     transition: 0.5s ease;
 }
 
-    .favorite-button-delete:hover {
+    .favorite-button-delete:hover, .delete-admin-button:hover {
         color: white;
         font-size: 15px;
         font-family: Tahoma;
