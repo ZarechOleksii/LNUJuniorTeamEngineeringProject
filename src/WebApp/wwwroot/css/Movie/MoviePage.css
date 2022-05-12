@@ -15,5 +15,8 @@
 .movie-description {
     font-size: large;
     width: 100%;
-    margin-top: 50px;
+    margin-top: 20px;
+    border: 2px solid lightgray;
+    padding: 40px 15px 40px 15px;
+    border-radius: 20px;
 }

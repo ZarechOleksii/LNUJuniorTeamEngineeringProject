@@ -32,8 +32,15 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult Register()
+        public async Task<IActionResult> Register()
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userLoggedIn = await _userManager.FindByIdAsync(userId);
+            if (userLoggedIn != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View();
         }
 
@@ -42,6 +49,13 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var userLoggedIn = await _userManager.FindByIdAsync(userId);
+                if (userLoggedIn != null)
+                {
+                    return View("Error", "You are logged in, and cannot perform this action");
+                }
+
                 User user = new ()
                 {
                     Email = model.Email,
@@ -79,8 +93,15 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public async Task<IActionResult> Login()
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userLoggedIn = await _userManager.FindByIdAsync(userId);
+            if (userLoggedIn != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View();
         }
 
@@ -89,6 +110,13 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var userLoggedIn = await _userManager.FindByIdAsync(userId);
+                if (userLoggedIn != null)
+                {
+                    return View("Error", "You are logged in, and cannot perform this action");
+                }
+
                 var user = await _userManager.FindByEmailAsync(model.Email);
 
                 if (user is null)
@@ -135,8 +163,15 @@ namespace WebApp.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult ForgotPassword()
+        public async Task<IActionResult> ForgotPassword()
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userLoggedIn = await _userManager.FindByIdAsync(userId);
+            if (userLoggedIn != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View();
         }
 
@@ -149,6 +184,13 @@ namespace WebApp.Controllers
             {
                 try
                 {
+                    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    var userLoggedIn = await _userManager.FindByIdAsync(userId);
+                    if (userLoggedIn != null)
+                    {
+                        return View("Error", "You are logged in, and cannot perform this action");
+                    }
+
                     var user = await _userManager.FindByEmailAsync(model.Email);
                     if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
                     {

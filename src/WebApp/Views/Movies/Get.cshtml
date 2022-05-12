@@ -48,53 +48,50 @@
     </iframe>
 
     <div class="rating-container">
-        <div class="rating-form">
-            <input name="Rate" type="range" min="1" max="10" class="rating-input" id="myRange">
-            <span id="demo" class="rating-value"></span>
-            @if (User.Identity?.IsAuthenticated == true)
-            {
-                <button value=@Model.Id onclick="addRate(this.value)">Add rate</button>
-            }
-            else
-            {
-                <a href="@Url.Action("Login", "Account")"><div style="cursor:pointer">Add rate</div></a>
-            }
-
-            <script>
-                var slider = document.getElementById("myRange");
-                var output = document.getElementById("demo");
-                output.innerHTML = slider.value;
-
-                slider.oninput = function() {
-                  output.innerHTML = this.value;
-                }
-            </script>
-        </div>
-
-
-
-        <div class="add-to-favourite-area">
-            <div class="add-to-favourite-button">
+        <div>
+            <div class="rating-form">
+                <input name="Rate" type="range" min="1" max="10" class="rating-input" id="myRange">
+                <span id="demo" class="rating-value"></span>
                 @if (User.Identity?.IsAuthenticated == true)
                 {
-                    <button value=@Model.Id class="favorite-button" onclick="add_to_favorite(this.value)">Add to Favorites</button>
+                    <button value=@Model.Id onclick="addRate(this.value)">Add rate</button>
                 }
                 else
                 {
-                    <a href="@Url.Action("Login", "Account")" style="text-decoration:none"><div class="favorite-button">Add to Favorites</div></a>
+                    <a href="@Url.Action("Login", "Account")"><div style="cursor:pointer">Add rate</div></a>
                 }
+
+                <script>
+                    var slider = document.getElementById("myRange");
+                    var output = document.getElementById("demo");
+                    output.innerHTML = slider.value;
+
+                    slider.oninput = function() {
+                      output.innerHTML = this.value;
+                    }
+                </script>
             </div>
+            <h5>Average rate: @(@Model.Rating.Count == 0 ? "There are no rates yet" : Math.Round(@Model.Rating.Average(x => x.Rate), 2))</h5>
         </div>
-        @if (User.IsInRole("Admin"))
-        {
-        <div class="delete-movie-admin">
-            <div class="delete-movie-admin-button">
+
+
+
+        <div>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <button value=@Model.Id class="favorite-button" onclick="add_to_favorite(this.value)">Add to Favorites</button>
+            }
+            else
+            {
+                <a href="@Url.Action("Login", "Account")" style="text-decoration:none"><div class="favorite-button">Add to Favorites</div></a>
+            }
+            @if (User.IsInRole("Admin"))
+            {
                 <button value=@Model.Id class="delete-admin-button" onclick="deleteMovieAdmin(this.value)">Delete Movie</button>
-            </div>
+            }
         </div>
-        }
+
     </div>
-    <h5>Average rate: @(@Model.Rating.Count == 0 ? "There are no rates yet" : Math.Round(@Model.Rating.Average(x => x.Rate), 2))</h5>
 
     <p class="movie-description">@Model.Description</p>
 
@@ -107,7 +104,7 @@
             <button type="submit">Post</button>
         </form>
     }
-    else if(User.IsInRole("Banned"))
+    else if (User.IsInRole("Banned"))
     {
         <p class="banned-text">
             This profile is banned - all your comments are deleted and you cannot publish new comments.
@@ -125,9 +122,9 @@
             {
                 <div class="comment">
                     <p>
-                        @if(User.IsInRole("Admin"))
+                        @if (User.IsInRole("Admin"))
                         {
-                            <a href="/Account/User/@comment.UserId">
+                            <a href="/Account/User/@comment.UserId" style="text-decoration:none">
                                 <b>@comment.User.UserName:</b>
                             </a>
                         }

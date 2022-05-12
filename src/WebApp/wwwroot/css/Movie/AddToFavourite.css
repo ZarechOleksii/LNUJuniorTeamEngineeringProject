@@ -4,11 +4,11 @@
     font-family: Tahoma;
     border: 0px;
     border-radius: 30px;
-    width: 200px;
+    width: 80%;
     height: 50px;
-    box-shadow: 0px 0px 30px #23B298;
+    box-shadow: 0px 0px 20px #23B298;
     background-color: #23B298;
-    margin: 30px;
+    margin: 15px 10% 5px 10%;
     transition: 0.5s ease;
     text-align: center;
     text-decoration: none;
@@ -16,7 +16,7 @@
 }
 
     .favorite-button:hover {
-        box-shadow: 0px 0px 30px #23B2AC;
+        box-shadow: 0px 0px 25px #23B2AC;
         background-color: #23B2AC;
         transform: scale(1.03);
         cursor: pointer;
@@ -28,16 +28,16 @@
     font-family: Tahoma;
     border: 0px;
     border-radius: 30px;
-    width: 215px;
+    width: 80%;
     height: 50px;
-    box-shadow: 0px 0px 30px #CC3844;
+    box-shadow: 0px 0px 20px #CC3844;
     background-color: #CC3844;
-    margin: 30px;
+    margin: 15px 10% 5px 10%;
     transition: 0.5s ease;
 }
 
     .favorite-button-delete:hover, .delete-admin-button:hover {
-        box-shadow: 0px 0px 30px #CC1426;
+        box-shadow: 0px 0px 25px #CC1426;
         background-color: #CC1426;
         transform: scale(1.03);
     }

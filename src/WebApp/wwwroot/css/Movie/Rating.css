@@ -1,8 +1,9 @@
 ﻿.rating-container {
-    display: flex;
+    display: grid;
     justify-content: space-between;
-    grid-template-columns: auto 80px;
     width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
 }
 
 .rating-form {
