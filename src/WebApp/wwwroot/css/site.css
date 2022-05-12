@@ -74,6 +74,7 @@ body {
     transition: 0.3s ease;
     border-radius: 20px;
     margin: 3px 5px 3px 0px;
+    width:100%;
 }
 
     .log-out-button-nav:hover {
