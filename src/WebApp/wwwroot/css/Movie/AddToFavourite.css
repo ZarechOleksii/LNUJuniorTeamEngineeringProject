@@ -12,21 +12,14 @@
     transition: 0.5s ease;
     text-align: center;
     text-decoration: none;
+    line-height: 50px
 }
 
     .favorite-button:hover {
-        color: white;
-        font-size: 15px;
-        font-family: Tahoma;
-        border: 0px;
-        border-radius: 30px;
-        width: 200px;
-        height: 50px;
         box-shadow: 0px 0px 30px #23B2AC;
         background-color: #23B2AC;
-        margin: 30px;
         transform: scale(1.03);
-        transition: 0.5s ease;
+        cursor: pointer;
     }
 
 .favorite-button-delete, .delete-admin-button {
@@ -44,16 +37,7 @@
 }
 
     .favorite-button-delete:hover, .delete-admin-button:hover {
-        color: white;
-        font-size: 15px;
-        font-family: Tahoma;
-        border: 0px;
-        border-radius: 30px;
-        width: 215px;
-        height: 50px;
         box-shadow: 0px 0px 30px #CC1426;
         background-color: #CC1426;
-        margin: 30px;
         transform: scale(1.03);
-        transition: 0.5s ease;
     }

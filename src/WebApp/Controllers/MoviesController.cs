@@ -9,7 +9,6 @@ namespace WebApp.Controllers
 {
     public class MoviesController : Controller
     {
-        private readonly ILogger<MoviesController> _logger;
         private readonly IMovieService _movieService;
         private readonly UserManager<User> _userManager;
         private readonly IFavouriteService _favouriteService;
@@ -17,14 +16,12 @@ namespace WebApp.Controllers
         private readonly IRatingService _ratingService;
 
         public MoviesController(
-            ILogger<MoviesController> logger,
             IMovieService movieService,
             UserManager<User> userManager,
             IFavouriteService favouriteService,
             ICommentService commentService,
             IRatingService ratingService)
         {
-            _logger = logger;
             _movieService = movieService;
             _userManager = userManager;
             _favouriteService = favouriteService;
