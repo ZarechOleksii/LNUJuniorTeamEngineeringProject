@@ -24,7 +24,7 @@ namespace UnitTests.ServiceTests
         }
 
         [Fact]
-        public async Task AddToFavourites_WhenRepThrows_ReturnsFalse()
+        public async Task AddComment_WhenRepThrows_ReturnsFalse()
         {
             // arrange
             var comment = SampleComment();
@@ -42,7 +42,7 @@ namespace UnitTests.ServiceTests
         }
 
         [Fact]
-        public async Task AddToFavourites_WhenRepFalse_ReturnsFalse()
+        public async Task AddComment_WhenRepFalse_ReturnsFalse()
         {
             // arrange
             var comment = SampleComment();
@@ -60,7 +60,7 @@ namespace UnitTests.ServiceTests
         }
 
         [Fact]
-        public async Task AddToFavourites_WhenRepTrue_ReturnsTrue()
+        public async Task AddComment_WhenRepTrue_ReturnsTrue()
         {
             // arrange
             var comment = SampleComment();

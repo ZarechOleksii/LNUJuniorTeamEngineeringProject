@@ -245,7 +245,7 @@ namespace WebApp.Controllers
             }
             else
             {
-                return View("Error", "Failed to add comment.");
+                return View("Error", "Failed to delete comment.");
             }
 
             return BadRequest();
