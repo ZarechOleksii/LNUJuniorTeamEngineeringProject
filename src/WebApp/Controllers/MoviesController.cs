@@ -234,7 +234,7 @@ namespace WebApp.Controllers
                 return View("Error", "Failed to delete comment.");
             }
 
-            if (comment.UserId == userId || userRoles.Contains("admin"))
+            if (comment.UserId == userId || userRoles.Contains("Admin"))
             {
                 var result = await _commentService.DeleteCommentAsync(comment);
 
