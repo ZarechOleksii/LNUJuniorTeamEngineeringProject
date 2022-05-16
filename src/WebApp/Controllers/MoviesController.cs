@@ -221,21 +221,31 @@ namespace WebApp.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public async Task<IActionResult> DeleteComment(Guid id)
         {
             var comment = await _commentService.GetCommentByIdAsync(id);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+            var userRoles = await _userManager.GetRolesAsync(user);
 
-            if (comment is null)
+            if (user is null || comment is null)
             {
-                return View("Error", "Failed to find comment to delete.");
+                return View("Error", "Failed to delete comment.");
             }
 
-            var result = await _commentService.DeleteCommentAsync(comment);
-
-            if (result)
+            if (comment.UserId == userId || userRoles.Contains("admin"))
             {
-                return Ok();
+                var result = await _commentService.DeleteCommentAsync(comment);
+
+                if (result)
+                {
+                    return Ok();
+                }
+            }
+            else
+            {
+                return View("Error", "Failed to add comment.");
             }
 
             return BadRequest();
