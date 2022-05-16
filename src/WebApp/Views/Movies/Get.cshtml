@@ -138,7 +138,9 @@
                         id="delete-comment-button-@comment.Id"
                         class="delete-comment-button"
                         type="submit"
-                        onclick="DeleteComment(this.value)">
+                        onclick="DeleteComment(this.value)"
+                        hidden=@(!User.IsInRole("Admin") && comment.User.UserName != User.Identity.Name)
+                    >
                         Delete
                     </button>
                 </div>
