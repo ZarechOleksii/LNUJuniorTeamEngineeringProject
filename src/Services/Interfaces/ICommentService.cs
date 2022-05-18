@@ -10,5 +10,6 @@ namespace Services.Interfaces
 
         public Task<Comment?> GetCommentByIdAsync(Guid id);
         public Task<bool> DeleteUserCommentsAsync(User user);
+        public Task<List<Comment>> GetCommentsAsync(Guid movieId);
     }
 }

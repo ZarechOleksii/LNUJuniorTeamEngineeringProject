@@ -17,5 +17,10 @@ namespace Data.CommentRepository
             await SaveChangesAsync();
             return true;
         }
+
+        public async Task<List<Comment>> GetAllMovieCommentsAsync(Guid movieId)
+        {
+            return await _set.Where(q => q.MovieId == movieId).ToListAsync();
+        }
     }
 }

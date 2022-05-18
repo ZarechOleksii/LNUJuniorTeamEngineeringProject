@@ -36,5 +36,22 @@ namespace Services.Implementations
                 return false;
             }
         }
+
+        public async Task<double> GetRateAsync(Guid movieId)
+        {
+            try
+            {
+                var rateValue = Math.Round(
+                    (await _repository.FetchAllNoTracking())
+                    .Where(i => i.MovieId == movieId).Average(p => p.Rate), 2);
+
+                return rateValue;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Caught exception in RatingService method GetRateAsync");
+                return 0.0;
+            }
+        }
     }
 }

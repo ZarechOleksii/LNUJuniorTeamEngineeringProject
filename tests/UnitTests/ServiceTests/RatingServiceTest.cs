@@ -131,6 +131,59 @@ namespace UnitTests.ServiceTests
             Assert.False(result);
         }
 
+        [Fact]
+        public async Task GetMovieRate_WhenRepTrue_ReturnsRateValue()
+        {
+            // arrange
+            var movieId = Guid.NewGuid();
+            var userId = Guid.NewGuid().ToString();
+            var existingRate = CreateRate(10, userId, movieId);
+
+            _repositoryMock.Setup(mock => mock.AddAsync(It.IsAny<MovieRate>())).ReturnsAsync(true);
+            _repositoryMock.Setup(mock => mock.FetchAllNoTracking()).ReturnsAsync(new List<MovieRate> { existingRate });
+
+            // act
+            var result = await _ratingService.GetRateAsync(movieId);
+
+            // assert
+            Assert.Equal(10.0, result);
+        }
+
+        [Fact]
+        public async Task GetMovieRate_WhenRepFalse_ReturnsZero()
+        {
+            // arrange
+            var movieId = Guid.NewGuid();
+            var userId = Guid.NewGuid().ToString();
+            var existingRate = CreateRate(10, userId, movieId);
+
+            _repositoryMock.Setup(mock => mock.AddAsync(It.IsAny<MovieRate>())).ReturnsAsync(false);
+            _repositoryMock.Setup(mock => mock.FetchAllNoTracking()).ReturnsAsync(new List<MovieRate>());
+
+            // act
+            var result = await _ratingService.GetRateAsync(movieId);
+
+            // assert
+            Assert.Equal(0.0, result);
+        }
+
+        [Fact]
+        public async Task GetMovieRate_WhenRepThows_ReturnsZero()
+        {
+            // arrange
+            var movieId = Guid.NewGuid();
+            var userId = Guid.NewGuid().ToString();
+            var existingRate = CreateRate(10, userId, movieId);
+
+            _repositoryMock.Setup(mock => mock.AddAsync(It.IsAny<MovieRate>())).Throws(new Exception());
+
+            // act
+            var result = await _ratingService.GetRateAsync(movieId);
+
+            // assert
+            Assert.Equal(0.0, result);
+        }
+
         private static MovieRate CreateRate(
             byte? rate = null,
             string? userId = null,

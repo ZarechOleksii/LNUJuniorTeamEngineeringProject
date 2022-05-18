@@ -68,5 +68,10 @@ namespace Services.Implementations
                 return false;
             }
         }
+
+        public async Task<List<Comment>> GetCommentsAsync(Guid movieId)
+        {
+            return await _repository.GetAllMovieCommentsAsync(movieId);
+        }
     }
 }

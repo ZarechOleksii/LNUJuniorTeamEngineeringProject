@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Data;
 using Data.CommentRepository;
@@ -16,6 +18,7 @@ namespace UnitTests.ServiceTests
         private readonly ILogger<CommentService> _mockedLogger;
         private readonly Mock<ICommentRepository> _repMock;
         private CommentService _commentService;
+        private MovieService _movieService;
 
         public CommentServiceTest()
         {
@@ -128,6 +131,46 @@ namespace UnitTests.ServiceTests
             Assert.False(result);
         }
 
+        [Fact]
+        public async Task GetComments_WhenRepThrows_ReturnsNull()
+        {
+            // arrange
+            var comment = SampleComment();
+            var movie = SampleMovie();
+
+            _repMock.Setup(mock => mock.AddAsync(It.IsAny<Comment>()))
+                .Throws(new Exception());
+
+            _commentService = new (_repMock.Object, _mockedLogger);
+            await _commentService.AddCommentAsync(comment);
+
+            // act
+            var result = await _commentService.GetCommentsAsync(movie.Id);
+
+            // assert
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public async Task GetComments_WhenRepFalse_ReturnsNull()
+        {
+            // arrange
+            var comment = SampleComment();
+            var movie = SampleMovie();
+
+            _repMock.Setup(mock => mock.AddAsync(It.IsAny<Comment>()))
+                .ReturnsAsync(false);
+
+            _commentService = new (_repMock.Object, _mockedLogger);
+            await _commentService.AddCommentAsync(comment);
+
+            // act
+            var result = await _commentService.GetCommentsAsync(movie.Id);
+
+            // assert
+            Assert.Null(result);
+        }
+
         private static Comment SampleComment()
         {
             Comment comment = new ()
@@ -138,6 +181,18 @@ namespace UnitTests.ServiceTests
             };
 
             return comment;
+        }
+
+        private static Movie SampleMovie()
+        {
+            Movie movie = new ()
+            {
+                Id = Guid.NewGuid(),
+                Name = "Name1",
+                Description = "Description1",
+            };
+
+            return movie;
         }
     }
 }

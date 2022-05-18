@@ -58,7 +58,7 @@
                 }
                 else
                 {
-                    <a href="@Url.Action("Login", "Account")"><div style="cursor:pointer">Add rate</div></a>
+                    <a href="@Url.Action("Login", "Account")"><div class="add-rate" style="cursor:pointer">Add rate</div></a>
                 }
 
                 <script>
@@ -71,23 +71,29 @@
                     }
                 </script>
             </div>
-            <h5>Average rate: @(@Model.Rating.Count == 0 ? "There are no rates yet" : Math.Round(@Model.Rating.Average(x => x.Rate), 2))</h5>
+            <h5 id="rate-mark">Average rate: @(@Model.Rating.Count == 0 ? "There are no rates yet" : Math.Round(@Model.Rating.Average(x => x.Rate), 2))</h5>
         </div>
 
 
 
-        <div>
+        <div class="delete-buttons">
             @if (User.Identity?.IsAuthenticated == true)
             {
+                <div class="favorite">
                 <button value=@Model.Id class="favorite-button" onclick="add_to_favorite(this.value)">Add to Favorites</button>
+                </div>
             }
             else
             {
+                <div class="favorite">
                 <a href="@Url.Action("Login", "Account")" style="text-decoration:none"><div class="favorite-button">Add to Favorites</div></a>
+                </div>
             }
             @if (User.IsInRole("Admin"))
             {
+                <div class="delete-admin">
                 <button value=@Model.Id class="delete-admin-button" onclick="deleteMovieAdmin(this.value)">Delete Movie</button>
+                </div>
             }
         </div>
 
@@ -97,12 +103,12 @@
 
     @if (User.Identity?.IsAuthenticated == true && !User.IsInRole("Banned"))
     {
-        <form id="comment" action="/Movies/AddComment" method="post" target="empty" class="add-comment-container">
-            <h4>Add comment: </h4>
-            <textarea name="Content" type="text" maxlength=500 required></textarea>
+        <div class="add-comment-container">
+            <h4>Add comment:  </h4>
+            <textarea id="comment-content" style="border: 1px solid;" name="Content" type="text" maxlength=500 required></textarea>
             <input name="MovieId" type="hidden" value=@Model.Id />
-            <button type="submit">Post</button>
-        </form>
+            <button onclick="addComment('@Model.Id')" type="submit">Post</button>
+        </div>
     }
     else if (User.IsInRole("Banned"))
     {
