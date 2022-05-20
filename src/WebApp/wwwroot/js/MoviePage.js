@@ -42,7 +42,7 @@ function formSubmit(event) {
     var url = $(this).closest('form').attr('action');
     var request = new XMLHttpRequest();
     request.open('POST', url, true);
-    request.onload = function () { 
+    request.onload = function () {
         document.getElementById("comment").reset();
     };
 
@@ -50,7 +50,7 @@ function formSubmit(event) {
         console.error("fail")
     };
 
-    request.send(new FormData(event.target)); 
+    request.send(new FormData(event.target));
     event.preventDefault();
 }
 
@@ -98,9 +98,47 @@ function addRate(movieId) {
         dataType: "text",
         success: function (msg) {
             console.log("OK: rate is added");
+            getRate(movieId);
         },
         error: function (req, status, error) {
             console.log("BAD: rate is NOT added");
+        }
+    });
+}
+
+function getRate(movieId) {
+    $.ajax({
+        type: "GET",
+        url: "/Movies/GetRate",
+        data: { movieId: movieId },
+        async: true,
+        dataType: "json",
+        success: function (data) {
+            console.log("OK: rate is get");
+            if (data.rateValue != 0) {
+                document.getElementById("rate-mark").innerHTML = "Average rate: " + data.rateValue;
+            }
+        },
+        error: function (req, status, error) {
+            console.log("BAD: rate is NOT get");
+        }
+    });
+}
+
+function addComment(movieId) {
+    var commentContent = document.getElementById("comment-content");
+    $.ajax({
+        type: "POST",
+        url: "/Movies/AddComment",
+        data: { movieId: movieId, content: commentContent.value },
+        async: true,
+        dataType: "text",
+        success: function (data) {
+            console.log("OK: comment is added");
+            location.reload();
+        },
+        error: function (req, status, error) {
+            console.log("BAD: comment is NOT added");
         }
     });
 }

@@ -193,10 +193,11 @@ namespace WebApp.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> AddComment(Comment comment)
+        public async Task<IActionResult> AddComment(Guid movieId, string content)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = await _userManager.FindByIdAsync(userId);
+            var movie = await _movieService.GetMovieAsync(movieId);
 
             if (user is null)
             {
@@ -208,7 +209,13 @@ namespace WebApp.Controllers
                 return View("Error", "You are banned and not allowed to publish comments.");
             }
 
-            comment.UserId = userId;
+            var comment = new Comment()
+            {
+                UserId = userId,
+                Content = content,
+                MovieId = movieId,
+                Movie = movie
+            };
 
             var result = await _commentService.AddCommentAsync(comment);
 
@@ -278,6 +285,13 @@ namespace WebApp.Controllers
             }
 
             return BadRequest();
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> GetRate(Guid movieId)
+        {
+            var rate = await _ratingService.GetRateAsync(movieId);
+            return Json(new { rateValue = rate });
         }
 
         [HttpDelete]
