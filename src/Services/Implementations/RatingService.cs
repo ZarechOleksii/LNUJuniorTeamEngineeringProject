@@ -1,4 +1,4 @@
-﻿using Data;
+﻿using Data.RatingRepository;
 using Microsoft.Extensions.Logging;
 using Models.Entities;
 using Services.Interfaces;
@@ -7,10 +7,10 @@ namespace Services.Implementations
 {
     public class RatingService : IRatingService
     {
-        private readonly IRepository<MovieRate> _repository;
+        private readonly IRatingRepository _repository;
         private readonly ILogger<RatingService> _logger;
 
-        public RatingService(IRepository<MovieRate> repository, ILogger<RatingService> logger)
+        public RatingService(IRatingRepository repository, ILogger<RatingService> logger)
         {
             _repository = repository;
             _logger = logger;
@@ -41,11 +41,8 @@ namespace Services.Implementations
         {
             try
             {
-                var rateValue = Math.Round(
-                    (await _repository.FetchAllNoTracking())
-                    .Where(i => i.MovieId == movieId).Average(p => p.Rate), 2);
-
-                return rateValue;
+                var rateValue = await _repository.GetMovieRateAsync(movieId);
+                return Math.Round(rateValue, 2);
             }
             catch (Exception ex)
             {

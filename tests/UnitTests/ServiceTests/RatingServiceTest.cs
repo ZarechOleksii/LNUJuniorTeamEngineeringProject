@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Data;
+using Data.RatingRepository;
 using Microsoft.Extensions.Logging;
 using Models.Entities;
 using Moq;
@@ -13,13 +14,13 @@ namespace UnitTests.ServiceTests
     public class RatingServiceTest
     {
         private readonly ILogger<RatingService> _mockedLogger;
-        private readonly Mock<IRepository<MovieRate>> _repositoryMock;
+        private readonly Mock<IRatingRepository> _repositoryMock;
         private readonly RatingService _ratingService;
 
         public RatingServiceTest()
         {
             _mockedLogger = new Mock<ILogger<RatingService>>().Object;
-            _repositoryMock = new Mock<IRepository<MovieRate>>();
+            _repositoryMock = new Mock<IRatingRepository>();
             _ratingService = new (_repositoryMock.Object, _mockedLogger);
         }
 
@@ -131,54 +132,30 @@ namespace UnitTests.ServiceTests
             Assert.False(result);
         }
 
-        [Fact]
-        public async Task GetMovieRate_WhenRepTrue_ReturnsRateValue()
+        [Theory]
+        [InlineData(10.0, 10.0)]
+        [InlineData(9.12980, 9.13)]
+        [InlineData(0, 0)]
+        public async Task GetMovieRate_WhenRepTrue_ReturnsRateValue(double averageRate, double expectedAverageRate)
         {
             // arrange
-            var movieId = Guid.NewGuid();
-            var userId = Guid.NewGuid().ToString();
-            var existingRate = CreateRate(10, userId, movieId);
-
-            _repositoryMock.Setup(mock => mock.AddAsync(It.IsAny<MovieRate>())).ReturnsAsync(true);
-            _repositoryMock.Setup(mock => mock.FetchAllNoTracking()).ReturnsAsync(new List<MovieRate> { existingRate });
+            _repositoryMock.Setup(mock => mock.GetMovieRateAsync(It.IsAny<Guid>())).ReturnsAsync(averageRate);
 
             // act
-            var result = await _ratingService.GetRateAsync(movieId);
+            var result = await _ratingService.GetRateAsync(default);
 
             // assert
-            Assert.Equal(10.0, result);
+            Assert.Equal(expectedAverageRate, result);
         }
 
         [Fact]
-        public async Task GetMovieRate_WhenRepFalse_ReturnsZero()
+        public async Task GetMovieRate_WhenRepThrows_ReturnsZero()
         {
             // arrange
-            var movieId = Guid.NewGuid();
-            var userId = Guid.NewGuid().ToString();
-            var existingRate = CreateRate(10, userId, movieId);
-
-            _repositoryMock.Setup(mock => mock.AddAsync(It.IsAny<MovieRate>())).ReturnsAsync(false);
-            _repositoryMock.Setup(mock => mock.FetchAllNoTracking()).ReturnsAsync(new List<MovieRate>());
+            _repositoryMock.Setup(mock => mock.GetMovieRateAsync(It.IsAny<Guid>())).Throws(new Exception());
 
             // act
-            var result = await _ratingService.GetRateAsync(movieId);
-
-            // assert
-            Assert.Equal(0.0, result);
-        }
-
-        [Fact]
-        public async Task GetMovieRate_WhenRepThows_ReturnsZero()
-        {
-            // arrange
-            var movieId = Guid.NewGuid();
-            var userId = Guid.NewGuid().ToString();
-            var existingRate = CreateRate(10, userId, movieId);
-
-            _repositoryMock.Setup(mock => mock.AddAsync(It.IsAny<MovieRate>())).Throws(new Exception());
-
-            // act
-            var result = await _ratingService.GetRateAsync(movieId);
+            var result = await _ratingService.GetRateAsync(default);
 
             // assert
             Assert.Equal(0.0, result);
