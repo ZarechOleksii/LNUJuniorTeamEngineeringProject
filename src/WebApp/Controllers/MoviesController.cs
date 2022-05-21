@@ -199,7 +199,7 @@ namespace WebApp.Controllers
             var user = await _userManager.FindByIdAsync(userId);
             var movie = await _movieService.GetMovieAsync(movieId);
 
-            if (user is null)
+            if (user is null || movie is null)
             {
                 return View("Error", "Failed to add comment.");
             }

@@ -18,7 +18,6 @@ namespace UnitTests.ServiceTests
         private readonly ILogger<CommentService> _mockedLogger;
         private readonly Mock<ICommentRepository> _repMock;
         private CommentService _commentService;
-        private MovieService _movieService;
 
         public CommentServiceTest()
         {

@@ -7,10 +7,10 @@
         dataType: "text",
         success: function (msg) {
             console.log("OK: added to favorite");
-            var b = document.getElementsByClassName("favorite-button")[0];
+            var b = document.getElementsByClassName("favorite-button add")[0];
             b.setAttribute("onclick", "delete_from_favorite(this.value)");
             b.innerHTML = "Delete from Favorites";
-            b.setAttribute("class", "favorite-button-delete");
+            b.setAttribute("class", "favorite-button delete");
         },
         error: function (req, status, error) {
             console.log("BAD: NOT added to favorite");
@@ -27,31 +27,15 @@ function delete_from_favorite(movie_id) {
         dataType: "text",
         success: function (msg) {
             console.log("OK: deleted from favorite");
-            var b = document.getElementsByClassName("favorite-button-delete")[0];
+            var b = document.getElementsByClassName("favorite-button delete")[0];
             b.setAttribute("onclick", "add_to_favorite(this.value)");
             b.innerHTML = "Add to Favorites";
-            b.setAttribute("class", "favorite-button");
+            b.setAttribute("class", "favorite-button add");
         },
         error: function (req, status, error) {
             console.log("BAD: NOT deleted from favorite");
         }
     });
-}
-
-function formSubmit(event) {
-    var url = $(this).closest('form').attr('action');
-    var request = new XMLHttpRequest();
-    request.open('POST', url, true);
-    request.onload = function () {
-        document.getElementById("comment").reset();
-    };
-
-    request.onerror = function () {
-        console.error("fail")
-    };
-
-    request.send(new FormData(event.target));
-    event.preventDefault();
 }
 
 function DeleteComment(comment_id) {
@@ -99,6 +83,7 @@ function addRate(movieId) {
         success: function (msg) {
             console.log("OK: rate is added");
             getRate(movieId);
+            slider.style.backgroundSize = (slider.value - slider.min) * 100 / (slider.max - slider.min) + '%';
         },
         error: function (req, status, error) {
             console.log("BAD: rate is NOT added");
@@ -143,4 +128,3 @@ function addComment(movieId) {
     });
 }
 
-document.getElementById("comment").addEventListener("submit", formSubmit);
