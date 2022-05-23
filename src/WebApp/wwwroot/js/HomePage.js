@@ -3,7 +3,7 @@ const pageSize = 5;
 var isHasMovieYet = true;
 var lastKnownScrollPosition = 0;
 var ticking = false;
-var startLoadingCount = 3;
+var startLoadingCount = 2;
 var intervalBetweenLoading = 1000;
 var isloading = false;
 
