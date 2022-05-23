@@ -10,20 +10,20 @@
 
 <form asp-controller="Movies" asp-action="Add" method="post" class="add-movie-form">
     <div asp-validation-summary="All" class="input-error"></div>
-    <div>
+    <div class="header">
         <h3 class="form-title">Add movie</h3>
     </div>
-    <div>
+    <div class="input-container">
         <label asp-for="Name" class="form-label"></label>
-        <input asp-for="Name" class="form-input" autocomplete="off"/>
+        <input asp-for="Name" class="form-input" autocomplete="off" />
     </div>
-    <div>
+    <div class="description-container">
         <label asp-for="Description" class="form-label"></label>
         <textarea asp-for="Description" class="form-textarea" autocomplete="off"></textarea>
     </div>
-    <div>
+    <div class="input-container">
         <label asp-for="Url" class="form-label"></label>
-        <input asp-for="Url" class="form-input" autocomplete="off"/>
+        <input asp-for="Url" class="form-input" autocomplete="off" />
     </div>
     <button type="submit" class="submit-button">Add</button>
 </form>
