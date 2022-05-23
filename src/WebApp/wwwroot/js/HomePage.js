@@ -1,5 +1,5 @@
 ﻿var page = 0;
-const pageSize = 1;
+const pageSize = 5;
 var isHasMovieYet = true;
 var lastKnownScrollPosition = 0;
 var ticking = false;
@@ -43,6 +43,7 @@ function loadMore() {
                         var movie = document.createElement("div");
                         var movieName = document.createElement("div");
                         var movieDescription = document.createElement("div");
+                        var movieBottom = document.createElement("div");
                         movie.setAttribute("class", "movie");
                         movie.addEventListener("click", function () {
                             document.location.href = `/Movies/Get?id=${data[i].id}`;
@@ -51,10 +52,11 @@ function loadMore() {
                         movieName.innerHTML = data[i].name;
                         movieDescription.setAttribute("class", "movie-description");
                         movieDescription.innerHTML = data[i].description;
-
+                        movieBottom.setAttribute("class", "movie-bottom");
 
                         movie.appendChild(movieName);
                         movie.appendChild(movieDescription);
+                        movie.appendChild(movieBottom);
 
                         var movieList = document.getElementById("movie-list");
                         movieList.appendChild(movie);
