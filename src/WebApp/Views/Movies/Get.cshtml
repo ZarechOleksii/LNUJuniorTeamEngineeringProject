@@ -59,7 +59,6 @@
                             var slider2 = document.getElementById("myRange");
                             var width = (slider2.value - slider2.min) * 100 / (slider2.max - slider2.min) + '%';
                             slider2.style.backgroundSize = width;
-                            console.log(slider2.style.backgroundSize);
                         </script>
                     }
                     else
@@ -102,6 +101,7 @@
             }
             @if (User.IsInRole("Admin"))
             {
+                <button value=@Model.Id class="edit-admin-button" onclick="location.href='@Url.Action("Edit", "Movies", new { id = @Model.Id}, null)'">Edit Movie</button>
                 <button value=@Model.Id class="delete-admin-button" onclick="deleteMovieAdmin(this.value)">Delete Movie</button>
             }
         </div>
