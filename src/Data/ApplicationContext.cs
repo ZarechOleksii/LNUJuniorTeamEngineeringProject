@@ -16,7 +16,7 @@ namespace Data
             : base(options)
         {
             // Database.EnsureDeletedAsync().Wait();
-            // Database.EnsureCreatedAsync().Wait();
+            Database.EnsureCreatedAsync().Wait();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
